@@ -275,17 +275,15 @@ html, body, #root{
 .mainContentContainer{
     display: flex;
     height: 100%;
-    margin-left:85px;
-    background-color: red;
+    margin-left:25px;
     justify-content: start;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-
 }
 
 
-.foldersContainer{
+.recentFilesContainer{
     display: flex;
     width: 100%;
     max-height: 450px;
@@ -294,34 +292,101 @@ html, body, #root{
     /*gap: 30px;*/
     margin-top: 15px;
     overflow-x:scroll;
-    
-    
-    
 }
 
-.subFolderContainer{
-    height: 325px;
+.sectionTitle{
+    color: #505887;
+    font-size: 22px;
+    font-family: DM Sans;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-left: 30px;
+}
+
+.subRecentFilesContainer{
+    height: 250px;
     display: flex;
     justify-content: flex-start;
     flex-direction: row;
     gap: 30px;
 }
 
+#subRecentFilesContainer1> button:first-child{
+
+    margin-left:30px;
+
+}
+
+#subRecentFilesContainer1> button:last-child{
+
+    margin-right:30px;
+
+}
+
+ 
+
 
     /* Peut etre déterminer une certaine longueur a ne pas depasser pour la slide cards*/
 
 
 
-.folderButton{
-    background-color: green;
+.recentItemButton{
+    background-color: #F6F5FF;
 
-    min-width: 255px;
-
-    height: 205px;
+    min-width: 225px;
+    height: 180px;
     border-radius: 13px;
-    box-shadow: 0px 2.4691355228424072px 4.197530746459961px 0px rgba(158, 160, 249, 0.02), 0px 10.864197731018066px 8.691357612609863px 0px rgba(158, 160, 249, 0.03), 0px 26.66666603088379px 17.333332061767578px 0px rgba(158, 160, 249, 0.04), 0px 51.358028411865234px 33.97530746459961px 0px rgba(158, 160, 249, 0.04), 0px 86.41974639892578px 62.46913146972656px 0px rgba(158, 160, 249, 0.05), 0px 133.3333282470703px 106.66666412353516px 0px rgba(158, 160, 249, 0.07);
+    outline: none;
+    border: none;
+    box-shadow: 0px 2.4691355228424072px 4.197530746459961px 0px rgba(158, 160, 249, 0.02), 0px 10.864197731018066px 8.691357612609863px 0px rgba(158, 160, 249, 0.03), 0px 26.66666603088379px 17.333332061767578px 0px rgba(158, 160, 249, 0.04), 0px 51.358028411865234px 33.97530746459961px 0px rgba(158, 160, 249, 0.04), 0px 28.80666732788086px 62.46913146972656px 0px rgba(158, 160, 249, 0.05), 0px 44.44333267211914px 106.66666412353516px 0px rgba(158, 160, 249, 0.07);     
+
+}
+
+.recentItemButton:hover{
+    background-color: #3734A9;
+}
+
+#allFilesContainer{
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    margin-left: 30px;
+
+    
+
+    
+}
+
+#allFilesSubContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap:15px;
+    
+}
 
 
+#allFilesFiltersContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    background-color: yellow;
+}
+
+.itemButton{
+    height: 70px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.itemButton:hover{
+    background-color: rgb(233, 229, 229)
 }
 
 

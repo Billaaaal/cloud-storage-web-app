@@ -111,39 +111,67 @@ function App(){
 
         <div className={styles.mainContentContainer}>
 
-          <ScrollContainer className={styles.foldersContainer} hideScrollbars={false}>
+        <h1 className={styles.sectionTitle}>Recent files</h1>
+
+
+
+
+
+          <ScrollContainer className={styles.recentFilesContainer} hideScrollbars={true}>
+
+
 
             {/* Si besoin de diviser en deux div, utiliser deux listes pour chaque div*/}
 
-              <div className={styles.subFolderContainer}>
+            <div className={styles.subRecentFilesContainer} id={styles.subRecentFilesContainer1}>
 
-                <div className={styles.folderButton}></div>
-                  <div className={styles.folderButton}></div>
-                  <div className={styles.folderButton}></div>
-                  <div className={styles.folderButton}></div>
-                  <div className={styles.folderButton}></div>
+              <button className={styles.recentItemButton}></button>
+              <button className={styles.recentItemButton}></button>
+              <button className={styles.recentItemButton}></button>
+              <button className={styles.recentItemButton}></button>
+              <button className={styles.recentItemButton}></button>
+              <button className={styles.recentItemButton}></button>
+              <button className={styles.recentItemButton}></button>
+              <button className={styles.recentItemButton}></button>
+              
+            
+              
+            </div>
 
 
-                </div>
-
-                <div className={styles.subFolderContainer}>
-
-                  <div className={styles.folderButton}></div>
-                  <div className={styles.folderButton}></div>
-                  <div className={styles.folderButton}></div>
-                  <div className={styles.folderButton}></div>
-                  <div className={styles.folderButton}></div>
-                  <div className={styles.folderButton}></div>
-                  <div className={styles.folderButton}></div>
-                  
-
-                
-              </div>
+          
 
             
 
 
           </ScrollContainer>
+
+          <h1 className={styles.sectionTitle}>All files</h1>
+
+          <div id={styles.allFilesContainer}>
+
+            <div id={styles.allFilesFiltersContainer}>
+              <button></button>
+              <button></button>
+              <button></button>
+
+            </div>
+
+            <div id={styles.allFilesSubContainer}>
+
+                
+              <div className={styles.itemButton}></div>
+              <div className={styles.itemButton}></div>
+              <div className={styles.itemButton}></div>
+              <div className={styles.itemButton}></div>
+
+            </div>
+
+
+
+
+
+          </div>
 
           
 
