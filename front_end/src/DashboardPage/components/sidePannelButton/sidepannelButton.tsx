@@ -12,9 +12,12 @@ const SidePannelButton = (props:any) => {
     var bgHover: string;
     var buttonStyle: any;
 
+    var item = props.itemObject
 
 
-    if (props.title==="Dashboard"){
+
+
+    if (item.title==="Dashboard"){
         
         buttonStyle = styles.sidePannelFirstButton
 
@@ -42,12 +45,12 @@ const SidePannelButton = (props:any) => {
             <button className={buttonStyle}>
 
             
-                <img className={styles.sidePannelButtonIcon} src={props.image}></img>
+                <img className={styles.sidePannelButtonIcon} src={item.image}></img>
 
             </button>
 
             
-            <h2 className={styles.sidePannelButtonTitle}>{props.title}</h2>
+            <h2 className={styles.sidePannelButtonTitle}>{item.title}</h2>
 
 
         </div>

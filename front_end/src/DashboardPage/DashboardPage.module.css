@@ -8,6 +8,8 @@
 html, body, #root{
     height: 100%;
     width: 100%;
+    overflow-x: hidden;
+    
 
 
     
@@ -26,9 +28,10 @@ html, body, #root{
 }
 
 .navbar{
+    position: fixed;
     width: 100%;
     margin-top: 0px;
-    height: 110px;
+    height: 88px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -38,7 +41,7 @@ html, body, #root{
 
 .logo{
 
-    height: 35px;
+    height: 28px;
 
 
 
@@ -48,8 +51,8 @@ html, body, #root{
 .searchBar {
     display: flex;
     align-items: center;
-    width: 480px; /* Adjust the width as needed */
-    height: 64px;
+    width: 384px; /* Adjust the width as needed */
+    height: 51px;
     border: 2px solid #F0F0F0;
     border-radius: 10px; /* Adds border radius */
     background-color: white;
@@ -61,7 +64,7 @@ html, body, #root{
     display: flex;
 
     flex: 1;
-    padding: 20px;
+    padding: 16px;
     border: none;
     background-color: transparent;
     outline: none; /* Disable the default outline */
@@ -73,10 +76,10 @@ html, body, #root{
 .searchBarIcon {
     display: flex;
 
-    height: 25px;
-    width: 25px;
+    height: 20px;
+    width: 20px;
      /* Adjust the height as needed */
-    margin-left: 30px;
+    margin-left: 24px;
     z-index: 2;
     fill: white;
 }
@@ -91,8 +94,8 @@ html, body, #root{
 
 .filterButton{
     display: flex;
-    width: 220px; /* Adjust the width as needed */
-    height: 64px;
+    width: 176px; /* Adjust the width as needed */
+    height: 51px;
     border: 2px solid #F0F0F0;
     border-radius: 10px; /* Adds border radius */
     background-color: white;
@@ -101,7 +104,7 @@ html, body, #root{
     font-family: 'DM Sans', sans-serif;
     font-size: 1rem;
     justify-content: space-between;
-    padding: 20px;
+    padding: 16px;
 }
 
 
@@ -113,8 +116,8 @@ html, body, #root{
 
     
     display: flex;
-    height: 15px;
-    width: 15px;
+    height: 12px;
+    width: 12px;
     z-index: 2;
 
 
@@ -122,8 +125,8 @@ html, body, #root{
 
 
 .userContainer{
-    width: 255px;
-    height:45px;
+    width: 204px;
+    height:36px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -148,8 +151,8 @@ html, body, #root{
     display:flex;
     flex-direction: row;
     align-items: center;
-    width:195px;
-    height:45px;
+    width:156px;
+    height:36px;
 }
 
 
@@ -159,7 +162,7 @@ html, body, #root{
 }
 
 .usernameText{
-    margin-left: 10px;
+    margin-left: 8px;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.8rem;
 }
@@ -168,17 +171,24 @@ html, body, #root{
     width: 1920px;
     height: 1.333px; 
     background: #F6F6F6; 
+    margin-top: 88px;
+    position: fixed;
 }
 
 .mainContainer{
     width: 100%;
     height: 100%;
+    margin-left: 660px;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+    margin-top: 110px;
+
 }
 
 .sidePannel{
+    position: fixed;
+    top:100px;
     background-color: transparent;
     width:330px;
     height:100%;
@@ -186,6 +196,7 @@ html, body, #root{
     flex-direction: column;
     align-items : center;
     justify-content: start;
+    align-self: start;
     margin-top: 20px;
 
 
@@ -266,7 +277,7 @@ html, body, #root{
 .storageUsageBar{
 
     height: 100%;
-    width: 89%;
+    width: 55%;
     background-color: #FF6E91;
     border-radius: 8px;
     display: flex;
@@ -274,8 +285,8 @@ html, body, #root{
 
 .mainContentContainer{
     display: flex;
-    height: 100%;
     margin-left:25px;
+    margin-top: 0px;
     justify-content: start;
     display: flex;
     flex-direction: column;
@@ -286,12 +297,13 @@ html, body, #root{
 .recentFilesContainer{
     display: flex;
     width: 100%;
-    max-height: 450px;
+    height: 250px;
     justify-content: flex-start;
     flex-direction: column;
     /*gap: 30px;*/
     margin-top: 15px;
     overflow-x:scroll;
+    flex-grow: 1;
 }
 
 .sectionTitle{
@@ -310,6 +322,9 @@ html, body, #root{
     justify-content: flex-start;
     flex-direction: row;
     gap: 30px;
+    flex-grow: 1;
+    overflow-y: visible;
+
 }
 
 #subRecentFilesContainer1> button:first-child{
@@ -333,7 +348,6 @@ html, body, #root{
 
 .recentItemButton{
     background-color: #F6F5FF;
-
     min-width: 225px;
     height: 180px;
     border-radius: 13px;
@@ -347,47 +361,68 @@ html, body, #root{
     background-color: #3734A9;
 }
 
-#allFilesContainer{
-    width: 800px;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
-    margin-left: 30px;
-
-    
-
-    
-}
 
 #allFilesSubContainer{
-    width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
-    gap:15px;
-    
+    gap:10px;
+    flex-grow: 1;
+
+
+
 }
 
 
-#allFilesFiltersContainer{
+
+#allFilesSortContainer{
+    width: 100%;
+    height: 40px;
+    border-radius: 4px;
     display: flex;
     flex-direction: row;
     justify-content: start;
     align-items: center;
-    background-color: yellow;
+
 }
 
-.itemButton{
-    height: 70px;
-    width: 100%;
-    border-radius: 10px;
+
+
+.sortItem{
+    cursor: pointer;
+
+    height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #667085;
+    background-color: transparent;
+    border: none;
+    outline: none;
+
 }
 
-.itemButton:hover{
-    background-color: rgb(233, 229, 229)
+.sortItem:hover{
+    background-color: #F6F5FF;
+    border-radius: 5px;
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -396,4 +431,76 @@ html, body, #root{
     width: 1.33px;
     height: 100%; 
     background: #F6F6F6; 
+}
+
+
+@media screen and (max-width: 900px){
+    .sidePannel{
+        display: none;
+    }
+
+    .mainContainer
+    {
+        margin-left: 0px;
+
+
+    }
+}
+
+#bottomContainer> div:first-child{
+    align-self: start;
+
+}
+
+
+#bottomContainer{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    gap:100px;
+
+
+}
+
+#dragDropSurface{
+    background-image: repeating-linear-gradient(0deg, #8cb8f4, #8cb8f4 14px, transparent 14px, transparent 18px, #8cb8f4 18px), repeating-linear-gradient(90deg, #8cb8f4, #8cb8f4 14px, transparent 14px, transparent 18px, #8cb8f4 18px), repeating-linear-gradient(180deg, #8cb8f4, #8cb8f4 14px, transparent 14px, transparent 18px, #8cb8f4 18px), repeating-linear-gradient(270deg, #8cb8f4, #8cb8f4 14px, transparent 14px, transparent 18px, #8cb8f4 18px); background-size: 4px 100%, 100% 4px, 4px 100% , 100% 4px; background-position: 0 0, 0 0, 100% 0, 0 100%; background-repeat: no-repeat; 
+    width:800px;
+    height:300px;
+    background-color: #F5F8FC;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+}
+
+#dragDropIconContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    background-color:#E3EEFB;
+}
+
+#dragDropIcon{
+    height: 40px;
+    width: 40px;
+}
+
+#dragDropText{
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #667085;
+    margin-top: 20px;
+}
+
+#dragDropBrowseText{
+    color:blue;
+    text-decoration: underline;
 }

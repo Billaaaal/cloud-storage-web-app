@@ -5,14 +5,53 @@ import styles from './DashboardPage.module.css';
 import search from './assets/search.svg'
 import filterIcon from './assets/filter_icon.svg'
 import bell from './assets/bell.svg'
-import SidePannelButton from './components/sidepannelButton'
+import SidePannelButton from './components/sidePannelButton/sidepannelButton'
 import SideButtonsList from './SideButtonsList'
 import ScrollContainer from 'react-indiana-drag-scroll'
-
-
+import RecentFilesButton from './components/recentFilesButton/recentFilesButton'
+import ElementButton from './components/elementButton/elementButton';
+import folderIcon from './assets/folder.svg'
+import { Dropdown, Menu } from 'antd';
+import type { MenuProps } from 'antd';
+import { FileUploader } from "react-drag-drop-files";
 
 
 function App(){
+
+
+  const recentFilesList = [{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},];
+
+  const elementsList = [{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" }, {elementName: "document.docx", type: "docx", size: "54 KB", date: "time-stamp" }, {elementName: "image.jpg", type: "jpg", size: "136 KB", date: "time-stamp" }];
+
+  
+
+  const dropDownMenuOptions = (item:object) => [
+    { label: (<div onClick={()=>{downloadItem(item)}}>Download</div>), key: 'download' },
+    { label: (<div onClick={()=>{renameItem(item)}}>Rename</div>), key: 'rename' },
+    { label: (<div onClick={()=>{deleteItem(item)}}>Delete</div>), key: 'delete' },
+  ]
+
+  function downloadItem(item:any){
+
+    console.log(`Downloading ${item.type} ${item.elementName}...`)
+
+  }
+
+  function renameItem(item:any){
+
+    console.log(`Renaming ${item.type} ${item.elementName}...`)
+
+  }
+
+  function deleteItem(item:any){
+
+    console.log(`Deleting ${item.type} ${item.elementName}...`)
+
+
+  }
+
+    
+  
 
   return (
 
@@ -61,16 +100,18 @@ function App(){
 
       <div className={styles.divisionHorizontalBar}></div>
 
-      <div className={styles.mainContainer}>
-
-        <div className={styles.sidePannel}>
+      <div className={styles.sidePannel}>
 
           <div className={styles.sidePannelButtonsContainer}>
 
               
 
             {SideButtonsList.map((item, index) => (
-              <SidePannelButton title={item.title} image={item.image}/>
+              <SidePannelButton itemObject={item}/>
+
+
+
+              
             ))}
     
 
@@ -107,11 +148,16 @@ function App(){
 
         </div>
 
+      <div className={styles.mainContainer}>
+
+
+        
+
         <div className={styles.divisionVerticalBar}></div>
 
         <div className={styles.mainContentContainer}>
 
-        <h1 className={styles.sectionTitle}>Recent files</h1>
+          <h1 className={styles.sectionTitle}>Recent files</h1>
 
 
 
@@ -123,17 +169,24 @@ function App(){
 
             {/* Si besoin de diviser en deux div, utiliser deux listes pour chaque div*/}
 
-            <div className={styles.subRecentFilesContainer} id={styles.subRecentFilesContainer1}>
+            
 
-              <button className={styles.recentItemButton}></button>
-              <button className={styles.recentItemButton}></button>
-              <button className={styles.recentItemButton}></button>
-              <button className={styles.recentItemButton}></button>
-              <button className={styles.recentItemButton}></button>
-              <button className={styles.recentItemButton}></button>
-              <button className={styles.recentItemButton}></button>
-              <button className={styles.recentItemButton}></button>
+            <div className={styles.subRecentFilesContainer} id={styles.subRecentFilesContainer1}>
+            {recentFilesList.map((item, index) => (
+
               
+
+
+
+            <Dropdown trigger={['contextMenu']} menu={{
+              items: dropDownMenuOptions(item),
+            }} 
+            ><div><RecentFilesButton itemObject={item}/></div></Dropdown>
+
+
+            ))}
+
+
             
               
             </div>
@@ -146,32 +199,65 @@ function App(){
 
           </ScrollContainer>
 
-          <h1 className={styles.sectionTitle}>All files</h1>
+          <div id={styles.bottomContainer}>
+            <div>
 
-          <div id={styles.allFilesContainer}>
+              <h1 className={styles.sectionTitle} style={{marginLeft:'20px'}}>myImages/LosAngeles2023</h1>
+              {/*  <h1 className={styles.sectionTitle} style={{marginLeft:'20px'}}>All files</h1> */}
 
-            <div id={styles.allFilesFiltersContainer}>
-              <button></button>
-              <button></button>
-              <button></button>
 
-            </div>
+              <div id={styles.allFilesSortContainer}>
+                <button className={styles.sortItem}>Type</button>
+                <button className={styles.sortItem}>Name</button>
+                <button className={styles.sortItem} style={{marginLeft:'135px'}}>Date created</button>
+                <button className={styles.sortItem} style={{marginLeft:'40px'}}>Size</button>
 
-            <div id={styles.allFilesSubContainer}>
+
+              </div>
+
+              <div id={styles.allFilesSubContainer}>
+
+                {elementsList.map((item, index) => (
 
                 
-              <div className={styles.itemButton}></div>
-              <div className={styles.itemButton}></div>
-              <div className={styles.itemButton}></div>
-              <div className={styles.itemButton}></div>
+
+                <Dropdown trigger={['contextMenu']} menu={{
+                  items: dropDownMenuOptions(item),
+                }}><div><ElementButton itemObject={item}/></div></Dropdown>))}
+
+
+
+
+              </div>
 
             </div>
 
+            <FileUploader hoverTitle={"Drop here"}>
+              <div id={styles.dragDropSurface}>
+                <div id={styles.dragDropIconContainer}>
+
+                <img src={"https://cdn-icons-png.flaticon.com/512/2716/2716054.png"} id={styles.dragDropIcon}></img>
+
+
+                </div>
+                <h1 id={styles.dragDropText}>Drag and drop files, or <span id={styles.dragDropBrowseText}>Browse</span></h1>
+              </div>
+            </FileUploader>
 
 
 
 
+            
           </div>
+
+          
+
+          
+
+            
+
+
+          
 
           
 
