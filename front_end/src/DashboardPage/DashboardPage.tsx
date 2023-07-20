@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, {useCallback} from 'react'
 //import css
 import styles from './DashboardPage.module.css';
 import search from './assets/search.svg'
@@ -13,13 +12,16 @@ import ElementButton from './components/elementButton/elementButton';
 import folderIcon from './assets/folder.svg'
 import { Dropdown, Menu } from 'antd';
 import type { MenuProps } from 'antd';
-import { FileUploader } from "react-drag-drop-files";
+import Dropzone from 'react-dropzone';
+import { useState } from 'react';
+
+ 
 
 
 function App(){
 
 
-  const recentFilesList = [{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},];
+  const recentFilesList = [{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},];
 
   const elementsList = [{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" }, {elementName: "document.docx", type: "docx", size: "54 KB", date: "time-stamp" }, {elementName: "image.jpg", type: "jpg", size: "136 KB", date: "time-stamp" }];
 
@@ -50,7 +52,8 @@ function App(){
 
   }
 
-    
+  const [isdraggOver, setDragOver] = useState(false);
+
   
 
   return (
@@ -65,7 +68,7 @@ function App(){
           
         <div className={styles.searchBar}>
 
-        <img className={styles.searchBarIcon} src={search}></img>
+          <img className={styles.searchBarIcon} src={search}></img>
 
           
           <input className={styles.searchBarInput} type="text" placeholder="Search Files..." name="search"></input>
@@ -200,7 +203,7 @@ function App(){
           </ScrollContainer>
 
           <div id={styles.bottomContainer}>
-            <div>
+            <div id={styles.allItemsContainer}>
 
               <h1 className={styles.sectionTitle} style={{marginLeft:'20px'}}>myImages/LosAngeles2023</h1>
               {/*  <h1 className={styles.sectionTitle} style={{marginLeft:'20px'}}>All files</h1> */}
@@ -232,21 +235,34 @@ function App(){
 
             </div>
 
-            <FileUploader dropMessageStyle={{opacity:"1", borderRadius: "10px" ,width:"800px", height:"300px", marginTop:"70px",backgroundColor: "white", backgroundImage: "repeating-linear-gradient(0deg, #8cb8f4, #8cb8f4 14px, transparent 14px, transparent 18px, #8cb8f4 18px), repeating-linear-gradient(90deg, #8cb8f4, #8cb8f4 14px, transparent 14px, transparent 18px, #8cb8f4 18px), repeating-linear-gradient(180deg, #8cb8f4, #8cb8f4 14px, transparent 14px, transparent 18px, #8cb8f4 18px), repeating-linear-gradient(270deg, #8cb8f4, #8cb8f4 14px, transparent 14px, transparent 18px, #8cb8f4 18px); background-size: 4px 100%, 100% 4px, 4px 100% , 100% 4px; background-position: 0 0, 0 0, 100% 0, 0 100%; background-repeat: no-repeat; ", }}>
-              <div id={styles.dragDropSurface}>
-                <div id={styles.dragDropIconContainer}>
+            <Dropzone 
+            onDrop={acceptedFiles => console.log(acceptedFiles)} 
+            onDragOver={()=>{setDragOver(true)}} 
+            onDragLeave={()=>{setDragOver(false)}}
+            onDropAccepted={(file)=>{setDragOver(false); console.log(file)}}>
+              {({getRootProps, getInputProps}) => (
 
-                <img src={"https://cdn-icons-png.flaticon.com/512/2716/2716054.png"} id={styles.dragDropIcon}></img>
+                
+                  <div className={styles.dragDropSurface} id={isdraggOver? styles.dragDropSurfaceDraggedOver : styles.dragDropSurfaceNotDraggedOver} {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <div id={styles.dragDropIconContainer}>
+
+                    <img src={"https://cdn-icons-png.flaticon.com/512/2716/2716054.png"} id={styles.dragDropIcon}></img>
 
 
-                </div>
-                <h1 id={styles.dragDropText}>Drag and drop files, or <span id={styles.dragDropBrowseText}>Browse</span></h1>
-              </div>
-            </FileUploader>
+                    </div>
+                    {
+                      isdraggOver? <h1 id={styles.dragDropText}>Drag your files here</h1>
+                      : <h1 id={styles.dragDropText}>Drag and drop files, or <span id={styles.dragDropBrowseText}>Browse</span></h1>
+
+                    }
+                  </div>
 
 
+              )}
+            </Dropzone>
 
-
+            
             
           </div>
 
