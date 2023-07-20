@@ -19,9 +19,9 @@ import { FileUploader } from "react-drag-drop-files";
 function App(){
 
 
-  const recentFilesList = [{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},];
+  const recentFilesList = [{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},];
 
-  const elementsList = [{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" }, {elementName: "document.docx", type: "docx", size: "54 KB", date: "time-stamp" }, {elementName: "image.jpg", type: "jpg", size: "136 KB", date: "time-stamp" }];
+  const elementsList = [{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" }, {elementName: "document.docx", type: "docx", size: "54 KB", date: "time-stamp" }, {elementName: "image.jpg", type: "jpg", size: "136 KB", date: "time-stamp" }];
 
   
 
@@ -157,7 +157,7 @@ function App(){
 
         <div className={styles.mainContentContainer}>
 
-          <h1 className={styles.sectionTitle}>Recent files</h1>
+          <h1 className={styles.sectionTitle} style={{marginLeft:"5px"}}>Recent</h1>
 
 
 
@@ -232,7 +232,7 @@ function App(){
 
             </div>
 
-            <FileUploader hoverTitle={"Drop here"}>
+            <FileUploader dropMessageStyle={{opacity:"1", borderRadius: "10px" ,width:"800px", height:"300px", marginTop:"70px",backgroundColor: "white", backgroundImage: "repeating-linear-gradient(0deg, #8cb8f4, #8cb8f4 14px, transparent 14px, transparent 18px, #8cb8f4 18px), repeating-linear-gradient(90deg, #8cb8f4, #8cb8f4 14px, transparent 14px, transparent 18px, #8cb8f4 18px), repeating-linear-gradient(180deg, #8cb8f4, #8cb8f4 14px, transparent 14px, transparent 18px, #8cb8f4 18px), repeating-linear-gradient(270deg, #8cb8f4, #8cb8f4 14px, transparent 14px, transparent 18px, #8cb8f4 18px); background-size: 4px 100%, 100% 4px, 4px 100% , 100% 4px; background-position: 0 0, 0 0, 100% 0, 0 100%; background-repeat: no-repeat; ", }}>
               <div id={styles.dragDropSurface}>
                 <div id={styles.dragDropIconContainer}>
 

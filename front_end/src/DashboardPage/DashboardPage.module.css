@@ -182,7 +182,7 @@ html, body, #root{
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    margin-top: 110px;
+    margin-top: 89px;
 
 }
 
@@ -431,21 +431,10 @@ html, body, #root{
     width: 1.33px;
     height: 100%; 
     background: #F6F6F6; 
+
 }
 
 
-@media screen and (max-width: 900px){
-    .sidePannel{
-        display: none;
-    }
-
-    .mainContainer
-    {
-        margin-left: 0px;
-
-
-    }
-}
 
 #bottomContainer> div:first-child{
     align-self: start;
@@ -456,8 +445,10 @@ html, body, #root{
 #bottomContainer{
     display:flex;
     flex-direction: row;
-    align-items: center;
+    align-items: start;
+    justify-content: start;
     gap:100px;
+    margin-bottom:50px;
 
 
 }
@@ -466,6 +457,7 @@ html, body, #root{
     background-image: repeating-linear-gradient(0deg, #8cb8f4, #8cb8f4 14px, transparent 14px, transparent 18px, #8cb8f4 18px), repeating-linear-gradient(90deg, #8cb8f4, #8cb8f4 14px, transparent 14px, transparent 18px, #8cb8f4 18px), repeating-linear-gradient(180deg, #8cb8f4, #8cb8f4 14px, transparent 14px, transparent 18px, #8cb8f4 18px), repeating-linear-gradient(270deg, #8cb8f4, #8cb8f4 14px, transparent 14px, transparent 18px, #8cb8f4 18px); background-size: 4px 100%, 100% 4px, 4px 100% , 100% 4px; background-position: 0 0, 0 0, 100% 0, 0 100%; background-repeat: no-repeat; 
     width:800px;
     height:300px;
+    margin-top: 70px;
     background-color: #F5F8FC;
     border-radius: 10px;
     display: flex;
@@ -502,5 +494,30 @@ html, body, #root{
 
 #dragDropBrowseText{
     color:blue;
-    text-decoration: underline;
+}
+
+#fileUploader{
+    display: none;
+}
+
+
+@media screen and (max-width: 900px){
+    .sidePannel{
+        display: none;
+    }
+
+    .mainContainer
+    {
+        margin-left: 0px;
+
+
+    }
+
+
+    #bottomContainer{
+        flex-direction: column;
+        gap:80px;
+    
+    
+    }
 }
