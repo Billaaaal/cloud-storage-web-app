@@ -62,7 +62,6 @@ html, body, #root{
 /* Style for the search bar input */
 .searchBarInput {
     display: flex;
-
     flex: 1;
     padding: 16px;
     border: none;
@@ -93,6 +92,7 @@ html, body, #root{
 
 
 .filterButton{
+    cursor: pointer;
     display: flex;
     width: 176px; /* Adjust the width as needed */
     height: 51px;
@@ -125,7 +125,6 @@ html, body, #root{
 
 
 .userContainer{
-    width: 204px;
     height:36px;
     display: flex;
     flex-direction: row;
@@ -134,9 +133,11 @@ html, body, #root{
     margin-right: 0px;
 }
 .notificationsButton{
-
+    cursor: pointer;
+    margin-right: 20px;
     display: flex;
-    height: 100%;
+    height: 30px;
+    width: 30px;
     border-radius: 10px; /* Adds border radius */
     background-color: transparent;
     align-items: center;
@@ -151,7 +152,6 @@ html, body, #root{
     display:flex;
     flex-direction: row;
     align-items: center;
-    width:156px;
     height:36px;
 }
 
@@ -316,6 +316,7 @@ html, body, #root{
     font-weight: 700;
     line-height: normal;
     margin-left: 30px;
+    margin-top: 30px;
 }
 
 .subRecentFilesContainer{
@@ -430,7 +431,7 @@ html, body, #root{
 
 
 .divisionVerticalBar{
-    width: 1.33px;
+    min-width: 1.33px;
     height: 100%; 
     background: #F6F6F6; 
 
@@ -495,23 +496,25 @@ html, body, #root{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     border-radius: 100%;
     background-color:#E3EEFB;
 }
 
 #dragDropIcon{
-    height: 40px;
-    width: 40px;
+    height: 50px;
+    width: 50px;
 }
 
 #dragDropText{
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 22px;
+    font-family: DM Sans;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
     color: #667085;
-    margin-top: 20px;
+ 
 }
 
 #dragDropBrowseText{
@@ -525,6 +528,10 @@ html, body, #root{
 
 @media screen and (max-width: 900px){
     .sidePannel{
+        display: none;
+    }
+
+    .divisionVerticalBar{
         display: none;
     }
 
@@ -581,7 +588,7 @@ html, body, #root{
 
         height: 300px;
         align-self: center;
-    
+        
     }
 
     #bottomContainer{
@@ -590,6 +597,51 @@ html, body, #root{
         align-items: center;
     }
     
+
+
+
+}
+
+@media screen and (max-width: 1000px){
+
+    .filterButton{
+        display: none;
+    }
+
+
+
+}
+
+@media screen and (max-width: 1000px){
+
+    .notificationsButton{
+        display: none;
+    }
+
+
+
+}
+
+
+@media screen and (max-width: 700px){
+
+    
+    
+    .searchBar{
+        width:50%;
+    }
+
+
+
+}
+
+@media screen and (max-width: 550px){
+
+    
+    
+    .userContainer{
+        display: none;
+    }
 
 
 
