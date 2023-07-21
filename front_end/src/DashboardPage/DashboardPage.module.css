@@ -457,37 +457,54 @@ html, body, #root{
 }
 
 .dragDropSurface:hover{
-    background-color: #dbeafd;
+    background-color: #efe8ff;
 }
 
 .dragDropSurface{
+    background-size: 3px calc(100% + 20px), calc(100% + 20px) 3px, 3px calc(100% + 20px) , calc(100% + 20px) 3px;
+
     width:800px;
     margin-right: 20px;
     height:300px;
     margin-top: 70px;
-    background-color: #F5F8FC;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    background-repeat: no-repeat; 
+
+    
 
 }
 
-#dragDropSurfaceDraggedOver{
+@keyframes borderAnimation { from { background-position: 0 0, -20px 0, 100% -20px, 0 100%; } to { background-position: 0 -20px, 0 0, 100% 0, -20px 100%; } } 
+
+.dragDropSurfaceDraggedOver{
     --border-color: #22c733;
     background-image: repeating-linear-gradient(0deg, var(--border-color), var(--border-color) 14px, transparent 14px, transparent 18px, var(--border-color) 18px), repeating-linear-gradient(90deg, var(--border-color), var(--border-color) 14px, transparent 14px, transparent 18px, var(--border-color) 18px), repeating-linear-gradient(180deg, var(--border-color), var(--border-color) 14px, transparent 14px, transparent 18px, var(--border-color) 18px), repeating-linear-gradient(270deg, var(--border-color), var(--border-color) 14px, transparent 14px, transparent 18px, var(--border-color) 18px); background-size: 4px 100%, 100% 4px, 4px 100% , 100% 4px; background-position: 0 0, 0 0, 100% 0, 0 100%; background-repeat: no-repeat; 
-
+    animation: borderAnimation 1s infinite linear;
 
 }
 
-#dragDropSurfaceNotDraggedOver{
+.dragDropSurfaceNotDraggedOver{
     --border-color: #8cb8f4;
 
     background-image: repeating-linear-gradient(0deg, var(--border-color), var(--border-color) 14px, transparent 14px, transparent 18px, var(--border-color) 18px), repeating-linear-gradient(90deg, var(--border-color), var(--border-color) 14px, transparent 14px, transparent 18px, var(--border-color) 18px), repeating-linear-gradient(180deg, var(--border-color), var(--border-color) 14px, transparent 14px, transparent 18px, var(--border-color) 18px), repeating-linear-gradient(270deg, var(--border-color), var(--border-color) 14px, transparent 14px, transparent 18px, var(--border-color) 18px); background-size: 4px 100%, 100% 4px, 4px 100% , 100% 4px; background-position: 0 0, 0 0, 100% 0, 0 100%; background-repeat: no-repeat; 
 
     
+}
+
+.dragDropSurfaceDropAccepted{
+
+    
+
+    --border-color: #ce98ef;
+
+    background-image: repeating-linear-gradient(0deg, var(--border-color), var(--border-color) 14px, transparent 14px, transparent 18px, var(--border-color) 18px), repeating-linear-gradient(90deg, var(--border-color), var(--border-color) 14px, transparent 14px, transparent 18px, var(--border-color) 18px), repeating-linear-gradient(180deg, var(--border-color), var(--border-color) 14px, transparent 14px, transparent 18px, var(--border-color) 18px), repeating-linear-gradient(270deg, var(--border-color), var(--border-color) 14px, transparent 14px, transparent 18px, var(--border-color) 18px); background-size: 4px 100%, 100% 4px, 4px 100% , 100% 4px; background-position: 0 0, 0 0, 100% 0, 0 100%; background-repeat: no-repeat; 
+
+
 }
 
 
@@ -648,5 +665,112 @@ html, body, #root{
 }
     
     
-    
-   
+
+.utveckling {
+animation: Utveckling 6.5s infinite;
+stroke-width: 10;
+fill: none;
+stroke: #5f7cfb;
+}
+.pil {
+animation: Pil 6.5s infinite;
+}
+.bock {
+animation: Bock 6.5s infinite;
+fill: none;
+stroke-dasharray: 31 82;
+stroke-dasharray: none;
+stroke-dashoffset: -47px;
+stroke-linecap: butt;
+stroke-linejoin: miter;
+stroke-miterlimit: 4;
+stroke-width: 4;
+stroke: #ffffff;
+}
+@keyframes Pil {
+    0% {
+        transform: translateY(0);
+    }
+    6% {
+        transform: translateY(-65px);
+    }
+    62.49% {
+        transform: translateY(-65px);
+    }
+    62.5% {
+        transform: translateY(65px);
+    }
+    68.5% {
+        transform: translateY(0px);
+    }
+}
+@keyframes Utveckling {
+    0% {
+        stroke-width: 10;
+    }
+    3.1% {
+        stroke-width: 10;
+        stroke-dasharray: 1 179;
+    }
+    3.6% {
+        stroke-width: 25;
+        stroke-dasharray: 1 179;
+    }
+    28% {
+        stroke-width: 25;
+        stroke-dasharray: 174 179;
+    }
+    34% {
+        stroke-width: 10;
+        stroke-dasharray: 179 179;
+    }
+    100% {
+        stroke-width: 10;
+        stroke-dasharray: 179 179;
+    }
+}
+@keyframes Bock {
+    0% {
+        stroke-dasharray: 1 82;
+        stroke-dashoffset: 0px;
+    }
+    29% {
+        stroke-dasharray: 1 82;
+        stroke-dashoffset: 0px;
+    }
+    35% {
+        stroke-dasharray: 31 82;
+        stroke-dashoffset: -50px;
+    }
+    62% {
+        stroke-dasharray: 31 82;
+        stroke-dashoffset: -50px;
+        transform: translateY(0px);
+    }
+    68% {
+        stroke-dasharray: 31 82;
+        stroke-dashoffset: -50px;
+        transform: translateY(-65px);
+    }
+    100% {
+        stroke-dasharray: 31 82;
+        stroke-dashoffset: -50px;
+        transform: translateY(-65px);
+    }
+
+}
+
+#circle1{
+    opacity:1;fill:#1939ff;fill-opacity:1;stroke:none;stroke-width:12.9174;
+
+}
+
+#path1{
+    fill:none;stroke:#ffffff;stroke-width:3.8;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;
+
+}
+
+#path2{
+    fill:none;stroke:#ffffff;stroke-width:3.8;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;
+
+}
