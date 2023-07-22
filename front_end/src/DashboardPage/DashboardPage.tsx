@@ -67,6 +67,8 @@ function App(){
 
   const [dragDropSurfaceState, setDragDropSurfaceState] = useState("isNotDraggedOver");
 
+  const [listOfUploaded, setListOfUploaded] = useState([])
+
 
   
 
@@ -259,8 +261,12 @@ function App(){
             onDragOver={()=>{setDragDropSurfaceState("isDraggedOver")}} 
             onDragLeave={()=>{setDragDropSurfaceState("isNotDraggedOver")}}
             onDropAccepted={(file)=>{
+            
+              
 
-              console.log(file)
+
+
+             
 
 
                 setDragDropSurfaceState("isDropAccepted")
@@ -293,8 +299,8 @@ function App(){
 
 
 
-                    { dragDropSurfaceState == "isDraggedOver"   ? <h1 id={styles.dragDropText}>Drag your files here</h1>   : null }
-                    { dragDropSurfaceState == "isNotDraggedOver"  ? <h1 id={styles.dragDropText}>Drag and drop files, or <span id={styles.dragDropBrowseText}>Browse</span></h1>   : null }
+                    { dragDropSurfaceState == "isDraggedOver"   ? <h1 id={styles.dragDropText}>Drag your file here</h1>   : null }
+                    { dragDropSurfaceState == "isNotDraggedOver"  ? <h1 id={styles.dragDropText}>Drag and drop a file, or <span id={styles.dragDropBrowseText}>Browse</span></h1>   : null }
                     { dragDropSurfaceState == "isDropAccepted" ? <h1 id={styles.dragDropText}>document.docx successfuly uploaded</h1>  : null }
 
                     {
