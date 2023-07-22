@@ -67,7 +67,7 @@ function App(){
 
   const [dragDropSurfaceState, setDragDropSurfaceState] = useState("isNotDraggedOver");
 
-  const [listOfUploaded, setListOfUploaded] = useState([])
+  const [listOfUploaded, setListOfUploaded] = React.useState<any[]>([]);
 
 
   
@@ -256,61 +256,106 @@ function App(){
 
             </div>
 
+            <div className={styles.dragDropContainer}>
+
             <Dropzone 
-            onDrop={acceptedFiles => console.log(acceptedFiles)} 
-            onDragOver={()=>{setDragDropSurfaceState("isDraggedOver")}} 
-            onDragLeave={()=>{setDragDropSurfaceState("isNotDraggedOver")}}
-            onDropAccepted={(file)=>{
-            
+              onDrop={acceptedFiles => console.log(acceptedFiles)} 
+              onDragOver={()=>{setDragDropSurfaceState("isDraggedOver")}} 
+              onDragLeave={()=>{setDragDropSurfaceState("isNotDraggedOver")}}
+              onDropAccepted={(files)=>{
+                console.log(files)
+                setDragDropSurfaceState("isDropAccepted")
+
+                setTimeout(() => {
+              
+                  setDragDropSurfaceState("isNotDraggedOver")
+                  for (let i = 0; i < files.length; i++) {
+
+                    setListOfUploaded([
+                      ...listOfUploaded,
+                      { name: files[i].name}
+                    ]);
+                  }
+
+                }, 2500);
+                
+
+                
+              
+                
+
+
+
               
 
 
 
-             
 
+                }}>
+                {({getRootProps, getInputProps}) => (
 
-                setDragDropSurfaceState("isDropAccepted")
-
-
-
-
-              }}>
-              {({getRootProps, getInputProps}) => (
-
-                
-                <div className={
-                `${styles.dragDropSurface} ${dragDropStyle(dragDropSurfaceState)}`
-                }
-                
-                
-                
-                {...getRootProps()}>
-                  <input {...getInputProps()} />
-
-                    { dragDropSurfaceState == "isDraggedOver"  ? null   : null }
-                    { dragDropSurfaceState == "isNotDraggedOver"  ?   null : null }
-                    { dragDropSurfaceState == "isDropAccepted" ? null : null }
-
-                    <DragDropSuccessfullAnimation state={dragDropSurfaceState}/> 
-
-                    {/*instead of using  <DragDropIcon/>, use dragdropsuccessfullanim but just change the colour depending on the state of the upload or on hover. also stop the anim like just run it once*/}
+                  
+                  <div className={
+                  `${styles.dragDropSurface} ${dragDropStyle(dragDropSurfaceState)}`
+                  }
+                  
+                  
+                  
+                  
+                  {...getRootProps()}>
                     
+                    <input {...getInputProps()} />
+
+
+                      <DragDropSuccessfullAnimation state={dragDropSurfaceState}/> 
+
+                      {/*instead of using  <DragDropIcon/>, use dragdropsuccessfullanim but just change the colour depending on the state of the upload or on hover. also stop the anim like just run it once*/}
+                      
+
+
+                      
+
+                      { dragDropSurfaceState == "isDraggedOver"   ? <h1 className={styles.dragDropText}>Drag your file here</h1>   : null }
+                      { dragDropSurfaceState == "isNotDraggedOver"  ? <h1 className={styles.dragDropText}>Drag and drop a file, or <span id={styles.dragDropBrowseText}>Browse</span></h1>   : null }
+                      { dragDropSurfaceState == "isDropAccepted" ? <div className={styles.dragDropUploadingTextContainer}><h1 className={`${styles.dragDropText} ${styles.dragDropUploadingText}`}>Uploading</h1></div>  : null }
+                  
+                      
+                    </div>
+
+
+                )}
+              </Dropzone>
+
+              {/*display the list of uploaded files*/}
+                <div>
+                  {
+                    
+                    listOfUploaded.map((file, index) => (
+
+                      <div>
+                        <p style={{fontSize:"10px"}}>{file.name}</p>
+                      </div>
+
+                    ))
+
+                  }
+
+                </div>
+
+            </div>
+
+
+              
+
+                
 
 
 
 
-                    { dragDropSurfaceState == "isDraggedOver"   ? <h1 id={styles.dragDropText}>Drag your file here</h1>   : null }
-                    { dragDropSurfaceState == "isNotDraggedOver"  ? <h1 id={styles.dragDropText}>Drag and drop a file, or <span id={styles.dragDropBrowseText}>Browse</span></h1>   : null }
-                    { dragDropSurfaceState == "isDropAccepted" ? <h1 id={styles.dragDropText}>document.docx successfuly uploaded</h1>  : null }
-
-                    {
-
-                    }
-                  </div>
+            
 
 
-              )}
-            </Dropzone>
+            
 
             
             

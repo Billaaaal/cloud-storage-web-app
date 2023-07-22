@@ -456,17 +456,27 @@ html, body, #root{
 
 }
 
+.dragDropContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: orange;
+    width:800px;
+    height:300px;
+    margin-right: 20px;
+    margin-top: 70px;
+}x
+
+
 .dragDropSurface:hover{
     background-color: #efe8ff;
 }
 
 .dragDropSurface{
     background-size: 3px calc(100% + 20px), calc(100% + 20px) 3px, 3px calc(100% + 20px) , calc(100% + 20px) 3px;
-
-    width:800px;
-    margin-right: 20px;
-    height:300px;
-    margin-top: 70px;
+    width: 100%;
+    height: 100%;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -524,7 +534,7 @@ html, body, #root{
     width: 50px;
 }
 
-#dragDropText{
+.dragDropText{
     font-size: 22px;
     font-family: DM Sans;
     font-style: normal;
@@ -533,6 +543,29 @@ html, body, #root{
     color: #667085;
  
 }
+
+.dragDropUploadingText::after {
+    display: inline-block;
+    animation: dotty steps(1,end) 1s infinite;
+    content: '';
+  }
+  
+  @keyframes dotty {
+      0%   { content: ''; }
+      25%  { content: '.'; }
+      50%  { content: '..'; }
+      75%  { content: '...'; }
+      100% { content: ''; }
+  }
+
+.dragDropUploadingTextContainer{
+    margin-left:16px;
+
+    width: 125px;
+
+}
+
+
 
 #dragDropBrowseText{
     color:blue;
@@ -588,12 +621,16 @@ html, body, #root{
 @media screen and (max-width: 1450px){
 
 
-    .dragDropSurface{
-
+    
+    .dragDropContainer{
         height: 400px;
     
     }
    
+    .dragDropSurface{
+        height: 400px;
+    
+    }
 
 
 }
@@ -601,12 +638,18 @@ html, body, #root{
 @media screen and (max-width: 1350px){
 
 
-    .dragDropSurface{
+    .dragDropContainer{
 
         height: 300px;
         align-self: center;
         
     }
+
+    .dragDropSurface{
+        height: 400px;
+    
+    }
+
 
     #bottomContainer{
         gap:50px;
