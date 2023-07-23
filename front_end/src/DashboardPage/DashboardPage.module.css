@@ -185,6 +185,8 @@ html, body, #root{
     width: calc(100vw - 330px);
     margin-right:0px;
     align-self: end;
+    background-color: yellow;
+
 
 }
 
@@ -286,13 +288,15 @@ html, body, #root{
 }
 
 .mainContentContainer{
+    width: 100%;
     display: flex;
-    margin-left:25px;
     margin-top: 0px;
     justify-content: start;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    background-color: purple;
+    margin-left: 45px;
 }
 
 
@@ -365,14 +369,22 @@ html, body, #root{
 }
 
 
+#allItemsContainer{
+    width:600px;
+    background-color: tomato;
+}
+
+
+
+
 #allFilesSubContainer{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
     gap:10px;
     flex-grow: 1;
-
+    width: 100%;
 
 
 }
@@ -452,21 +464,20 @@ html, body, #root{
     justify-content: start;
     gap:70px;
     margin-bottom:50px;
-     
+    width: 100%; 
+    background-color: green;    
 
 }
 
 .dragDropContainer{
+    width: 750px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    background-color: orange;
-    width:800px;
-    height:300px;
     margin-right: 20px;
     margin-top: 70px;
-}x
+
+}
 
 
 .dragDropSurface:hover{
@@ -476,7 +487,7 @@ html, body, #root{
 .dragDropSurface{
     background-size: 3px calc(100% + 20px), calc(100% + 20px) 3px, 3px calc(100% + 20px) , calc(100% + 20px) 3px;
     width: 100%;
-    height: 100%;
+    height:300px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -488,6 +499,7 @@ html, body, #root{
     
 
 }
+
 
 @keyframes borderAnimation { from { background-position: 0 0, -20px 0, 100% -20px, 0 100%; } to { background-position: 0 -20px, 0 0, 100% 0, -20px 100%; } } 
 
@@ -544,7 +556,7 @@ html, body, #root{
  
 }
 
-.dragDropUploadingText::after {
+.dragDropUploadingText:after {
     display: inline-block;
     animation: dotty steps(1,end) 1s infinite;
     content: '';
@@ -576,6 +588,100 @@ html, body, #root{
 }
 
 
+
+.uploadedFilesContainer{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+
+
+@media screen and (max-width: 1500px){
+    
+    
+    #bottomContainer{
+        gap:20px;
+        
+    
+    }
+   
+
+
+}
+
+
+@media screen and (max-width: 1450px){
+    
+    
+    
+    
+   
+    .dragDropSurface{
+        height: 400px;
+    
+    }
+
+
+}
+
+@media screen and (max-width: 1350px){
+    
+    
+    
+    
+    .dragDropSurface{
+        height: 400px;
+    
+    }
+
+    
+    
+    
+    
+    #bottomContainer{
+        flex-direction: column;
+        gap:80px;
+        align-items: start;
+        justify-content: start;
+    
+    }
+
+
+    .dragDropContainer{
+    
+        margin-left: 40px
+    }
+    
+}
+
+@media screen and (max-width: 1250px){
+    .dragDropContainer{
+        width: 90%;
+        align-self: start;
+    }
+}
+
+
+
+@media screen and (max-width: 1000px){
+
+    .notificationsButton{
+        display: none;
+    }
+    .filterButton{
+        display: none;
+    }
+
+    #allItemsContainer{
+        width:auto;
+    }
+    
+    
+}
+
 @media screen and (max-width: 900px){
     .sidePannel{
         display: none;
@@ -589,94 +695,28 @@ html, body, #root{
     {
         width: 100%;
         margin-left: 0px;
-
-    }
-
-    #bottomContainer{
-        flex-direction: column;
-        gap:80px;
-    
-    
-    }
-
-
-
-
-}
-
-@media screen and (max-width: 1500px){
-
-
-    #bottomContainer{
-        gap:20px;
-    
-    
-    }
-   
-
-
-}
-
-
-@media screen and (max-width: 1450px){
-
-
-    
-    .dragDropContainer{
-        height: 400px;
-    
-    }
-   
-    .dragDropSurface{
-        height: 400px;
-    
-    }
-
-
-}
-
-@media screen and (max-width: 1350px){
-
-
-    .dragDropContainer{
-
-        height: 300px;
-        align-self: center;
         
-    }
 
-    .dragDropSurface{
-        height: 400px;
+    }
+    /*
+    .mainContentContainer{
+        margin-left: 0px;
+    }
+    */
+
+
+    .dragDropContainer{
+
+        /*
+        width: calc(100% - 20px);
+        
+
     
+    */
+
+
     }
 
-
-    #bottomContainer{
-        gap:50px;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-
-
-
-}
-
-@media screen and (max-width: 1000px){
-
-    .filterButton{
-        display: none;
-    }
-
-
-
-}
-
-@media screen and (max-width: 1000px){
-
-    .notificationsButton{
-        display: none;
-    }
 
 
 
@@ -684,7 +724,7 @@ html, body, #root{
 
 
 @media screen and (max-width: 700px){
-
+    
     
     
     .searchBar{
@@ -694,6 +734,31 @@ html, body, #root{
 
 
 }
+
+
+@media screen and (max-width: 650px) {
+
+    /*
+   
+    #allItemsContainer{
+        width: 600px;
+        justify-content: start;
+    }
+
+    #allFilesSubContainer{
+        width: 100%;
+        justify-content: start;
+    }
+    
+    */
+    
+
+
+
+}
+
+
+
 
 @media screen and (max-width: 550px){
 

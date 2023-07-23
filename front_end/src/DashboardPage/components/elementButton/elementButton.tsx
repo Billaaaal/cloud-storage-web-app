@@ -1,9 +1,15 @@
 import React from 'react';
 import styles from './elementButton.module.css';
 import folderIcon from '../../assets/documents.svg'
+import { Dropdown, Menu } from 'antd';
+
+
+
 //const SidePannelButton = (props: { icon:String ; text: String; }) => {
 
 const ElementButton = (props:any) => {
+
+
 
     //check if the elementName has a file extension if not then it is a folder
 
@@ -16,7 +22,9 @@ const ElementButton = (props:any) => {
     var fileTypeIconTextBg:string;
 
 
+    const dropDownMenuOptions = props.dropDownMenuOptions;
 
+    
 
 
     
@@ -77,22 +85,27 @@ const ElementButton = (props:any) => {
     
     return (
 
+        <Dropdown trigger={['contextMenu']} menu={{
+            items: dropDownMenuOptions(item),
+          }}><div className={styles.elementButton}>
 
-        <div className={styles.elementButton}>
+          {isAFile   ? <div className={styles.fileTypeIcon} style={{backgroundColor:fileTypeIcongBg, color:fileTypeIconTextBg}}>{item.type.toUpperCase()}</div>
 
-            {isAFile   ? <div className={styles.fileTypeIcon} style={{backgroundColor:fileTypeIcongBg, color:fileTypeIconTextBg}}>{item.type.toUpperCase()}</div>
+              :  <img className={styles.folderIcon} src={folderIcon}></img>
+          }
 
-                :  <img className={styles.folderIcon} src={folderIcon}></img>
-            }
-
-            <h1 className={styles.elementName}>{item.elementName}</h1>
-            <h1 className={styles.date}>{item.date}</h1>
-            <h1 className={styles.size}>{item.size}</h1>
+          <h1 className={styles.elementName}>{item.elementName}</h1>
+          <h1 className={styles.date}>{item.date}</h1>
+          <h1 className={styles.size}>{item.size}</h1>
 
 
 
-            
-        </div>
+          
+      </div></Dropdown>
+          
+
+
+        
 
 
 

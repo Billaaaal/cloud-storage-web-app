@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react'
+import React, {useCallback, useEffect} from 'react'
 //import css
 import styles from './DashboardPage.module.css';
 import search from './assets/search.svg'
@@ -15,7 +15,7 @@ import type { MenuProps } from 'antd';
 import Dropzone from 'react-dropzone';
 import { useState } from 'react';
 import DragDropSuccessfullAnimation from './components/dragDropSuccessfullAnimation/dragDropSuccessfullAnimation';
-
+import UploadedFileItem from './components/uploadedFileItem/uploadedFileItem';
 
 
 function App(){
@@ -27,11 +27,6 @@ function App(){
 
   
 
-  const dropDownMenuOptions = (item:object) => [
-    { label: (<div onClick={()=>{downloadItem(item)}}>Download</div>), key: 'download' },
-    { label: (<div onClick={()=>{renameItem(item)}}>Rename</div>), key: 'rename' },
-    { label: (<div onClick={()=>{deleteItem(item)}}>Delete</div>), key: 'delete' },
-  ]
 
   function downloadItem(item:any){
 
@@ -52,6 +47,16 @@ function App(){
 
   }
 
+
+
+  
+  const dropDownMenuOptions = (item:object) => [
+    { label: (<div onClick={()=>{downloadItem(item)}}>Download</div>), key: 'download' },
+    { label: (<div onClick={()=>{renameItem(item)}}>Rename</div>), key: 'rename' },
+    { label: (<div onClick={()=>{deleteItem(item)}}>Delete</div>), key: 'delete' },
+  ]
+
+
   function dragDropStyle(currentDragDropState:string){
 
     switch(currentDragDropState){
@@ -68,6 +73,7 @@ function App(){
   const [dragDropSurfaceState, setDragDropSurfaceState] = useState("isNotDraggedOver");
 
   const [listOfUploaded, setListOfUploaded] = React.useState<any[]>([]);
+
 
 
   
@@ -201,11 +207,7 @@ function App(){
               
 
 
-
-            <Dropdown trigger={['contextMenu']} menu={{
-              items: dropDownMenuOptions(item),
-            }} 
-            ><div><RecentFilesButton itemObject={item}/></div></Dropdown>
+              <RecentFilesButton itemObject={item}/>
 
 
             ))}
@@ -245,9 +247,10 @@ function App(){
 
                 
 
-                <Dropdown trigger={['contextMenu']} menu={{
-                  items: dropDownMenuOptions(item),
-                }}><div><ElementButton itemObject={item}/></div></Dropdown>))}
+                <ElementButton itemObject={item} dropDownMenuOptions={dropDownMenuOptions}/>
+                
+                
+                ))}
 
 
 
@@ -263,21 +266,25 @@ function App(){
               onDragOver={()=>{setDragDropSurfaceState("isDraggedOver")}} 
               onDragLeave={()=>{setDragDropSurfaceState("isNotDraggedOver")}}
               onDropAccepted={(files)=>{
+                
                 console.log(files)
+
                 setDragDropSurfaceState("isDropAccepted")
+
+                for (let i = 0; i < files.length; i++) {
+                  console.log(files[i].size)
+                  setListOfUploaded([
+                    ...listOfUploaded,
+                    { name: files[i].name, size: files[i].size}
+                  ]);
+                }
 
                 setTimeout(() => {
               
                   setDragDropSurfaceState("isNotDraggedOver")
-                  for (let i = 0; i < files.length; i++) {
+                  
 
-                    setListOfUploaded([
-                      ...listOfUploaded,
-                      { name: files[i].name}
-                    ]);
-                  }
-
-                }, 2500);
+                }, 5500);
                 
 
                 
@@ -327,16 +334,16 @@ function App(){
               </Dropzone>
 
               {/*display the list of uploaded files*/}
-                <div>
-                  {
+                <div className={styles.uploadedFilesContainer}>
+                  
+                {
                     
                     listOfUploaded.map((file, index) => (
 
-                      <div>
-                        <p style={{fontSize:"10px"}}>{file.name}</p>
-                      </div>
+                      (index >= (listOfUploaded.length-3) ? <UploadedFileItem object={file}/> : null)
 
-                    ))
+                    )
+                    )
 
                   }
 
