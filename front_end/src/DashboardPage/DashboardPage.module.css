@@ -185,7 +185,6 @@ html, body, #root{
     width: calc(100vw - 330px);
     margin-right:0px;
     align-self: end;
-    background-color: yellow;
 
 
 }
@@ -295,7 +294,6 @@ html, body, #root{
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background-color: purple;
     margin-left: 45px;
 }
 
@@ -310,6 +308,7 @@ html, body, #root{
     margin-top: 15px;
     overflow-x:scroll;
     flex-grow: 1;
+    margin-left: 20px;
 }
 
 .sectionTitle{
@@ -319,7 +318,7 @@ html, body, #root{
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    margin-left: 30px;
+    margin-left: 25px;
     margin-top: 30px;
 }
 
@@ -331,6 +330,7 @@ html, body, #root{
     gap: 30px;
     flex-grow: 1;
     overflow-y: visible;
+
 
 }
 
@@ -370,8 +370,7 @@ html, body, #root{
 
 
 #allItemsContainer{
-    width:600px;
-    background-color: tomato;
+    width:700px;
 }
 
 
@@ -385,6 +384,7 @@ html, body, #root{
     gap:10px;
     flex-grow: 1;
     width: 100%;
+    background-color: orange;
 
 
 }
@@ -397,8 +397,11 @@ html, body, #root{
     border-radius: 4px;
     display: flex;
     flex-direction: row;
-    justify-content: start;
+
     align-items: center;
+    justify-content:space-between;
+    background-color: red;
+    
 
 }
 
@@ -461,20 +464,20 @@ html, body, #root{
     display:flex;
     flex-direction: row;
     align-items: start;
-    justify-content: start;
-    gap:70px;
+    justify-content: space-around;
+    gap:0px;
     margin-bottom:50px;
     width: 100%; 
-    background-color: green;    
 
 }
 
+
 .dragDropContainer{
-    width: 750px;
+    width: 45%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-right: 20px;
+    margin-right: 0px;
     margin-top: 70px;
 
 }
@@ -584,7 +587,6 @@ html, body, #root{
 }
 
 #fileUploader{
-    display: none;
 }
 
 
@@ -597,16 +599,40 @@ html, body, #root{
 
 }
 
+@media screen and (max-width: 1700px){
+
+
+    .dragDropContainer{
+        width: 40%;
+    }
+
+}
+
+@media screen and (max-width: 1600px){
+
+
+    #allItemsContainer{
+        width:50%;
+    }
+
+
+
+    
+}
+
 
 
 @media screen and (max-width: 1500px){
     
+   /* 
     
-    #bottomContainer{
+   #bottomContainer{
         gap:20px;
         
     
     }
+
+    */
    
 
 
@@ -649,18 +675,29 @@ html, body, #root{
     
     }
 
-
+    /*
     .dragDropContainer{
     
         margin-left: 40px
     }
-    
+
+    */
+    #allItemsContainer{
+        width:70%;
+    }
+
+
 }
 
 @media screen and (max-width: 1250px){
     .dragDropContainer{
         width: 90%;
         align-self: start;
+    }
+
+
+    #allItemsContainer{
+        width:90%;
     }
 }
 
@@ -675,9 +712,11 @@ html, body, #root{
         display: none;
     }
 
+
     #allItemsContainer{
-        width:auto;
+        width:100%;
     }
+
     
     
 }
@@ -698,11 +737,19 @@ html, body, #root{
         
 
     }
-    /*
+    
     .mainContentContainer{
         margin-left: 0px;
     }
-    */
+
+    .sectionTitle{
+        margin-left: 20px;
+    }
+
+    .recentFilesContainer{
+        margin-left: 20px;
+    }
+    
 
 
     .dragDropContainer{
@@ -717,7 +764,16 @@ html, body, #root{
 
     }
 
+    #bottomContainer{
+        width: 90%;
+        align-self: center;
+        max-width: auto;
+    
+    }
 
+    #allItemsContainer{
+        width:100%;
+    }
 
 
 }
@@ -729,6 +785,16 @@ html, body, #root{
     
     .searchBar{
         width:50%;
+    }
+
+    .subRecentFilesContainer{
+        gap:20px;
+        height: 137.5px;
+        
+    }
+
+    .recentFilesContainer{
+        height: 137.5px;
     }
 
 
@@ -765,8 +831,13 @@ html, body, #root{
     
     
     .userContainer{
+    }
+
+    .userContainer{
         display: none;
     }
+
+    
 
 
 

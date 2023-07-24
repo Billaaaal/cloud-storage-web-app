@@ -84,3 +84,37 @@
     line-height: normal; 
     margin-left: 10px;
 }
+
+
+@media screen and (max-width: 700px){
+
+    
+    .recentFilesButton{
+        background-color: #F6F5FF;
+        width: 137.5px;
+        min-width: 137.5px;
+        height: 110px;
+
+    
+    }
+
+
+    
+
+    
+
+
+    .detailsContainer{
+        width: 100%;
+        height: 35px;
+        font-size: 10px;
+    }
+
+
+    .fileTypeIcon{
+        width: 25px;
+        height: 25px;
+        font-size: 10px;
+    }
+
+}

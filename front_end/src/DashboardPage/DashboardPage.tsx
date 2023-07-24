@@ -23,7 +23,7 @@ function App(){
 
   const recentFilesList = [{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},];
 
-  const elementsList = [{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" }, {elementName: "document.docx", type: "docx", size: "54 KB", date: "time-stamp" }, {elementName: "image.jpg", type: "jpg", size: "136 KB", date: "time-stamp" }];
+  const elementsList = [{elementName: "a folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "another one", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "lol", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" }, {elementName: "document.docx", type: "docx", size: "54 KB", date: "time-stamp" }, {elementName: "image.jpg", type: "jpg", size: "136 KB", date: "time-stamp" }];
 
   
 
@@ -187,7 +187,7 @@ function App(){
 
         <div className={styles.mainContentContainer}>
 
-          <h1 className={styles.sectionTitle} style={{marginLeft:"5px"}}>Recent</h1>
+          <h1 className={styles.sectionTitle}>Recent</h1>
 
 
 
@@ -233,10 +233,26 @@ function App(){
 
 
               <div id={styles.allFilesSortContainer}>
-                <button className={styles.sortItem}>Type</button>
-                <button className={styles.sortItem}>Name</button>
-                <button className={styles.sortItem} style={{marginLeft:'135px'}}>Date created</button>
-                <button className={styles.sortItem} style={{marginLeft:'40px'}}>Size</button>
+                <div style={{flexBasis:'',}}>
+                  <button className={styles.sortItem}>Type</button>
+                </div>
+
+                <div style={{flexBasis:'calc(34% - 0px)'}}>
+                  <button className={styles.sortItem}>Name</button>
+
+                </div>
+
+                <div style={{flexBasis:'calc(28%)'}}>
+
+                  <button className={styles.sortItem}>Date created</button>
+
+                </div>
+
+                <div style={{flexBasis:'calc(20%)', }}>
+                  <button className={styles.sortItem}>Size</button>
+
+                </div>
+
 
 
               </div>
@@ -258,6 +274,8 @@ function App(){
               </div>
 
             </div>
+
+
 
             <div className={styles.dragDropContainer}>
 
