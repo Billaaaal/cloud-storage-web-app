@@ -73,6 +73,9 @@ const RecentFilesButton = (props:any) => {
 
 
     }
+
+    const dropDownMenuOptions = props.dropDownMenuOptions;
+
     
 
 
@@ -84,6 +87,9 @@ const RecentFilesButton = (props:any) => {
         
 
 
+<Dropdown trigger={['contextMenu']} menu={{
+            items: dropDownMenuOptions(item),
+          }}>
 
 <div className={styles.recentFilesButton}>
 
@@ -105,6 +111,8 @@ const RecentFilesButton = (props:any) => {
 
 
         
+
+</Dropdown>
 
 
         

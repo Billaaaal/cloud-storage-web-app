@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react'
+import React, {useCallback, useEffect, useRef} from 'react'
 //import css
 import styles from './DashboardPage.module.css';
 import search from './assets/search.svg'
@@ -16,6 +16,9 @@ import Dropzone from 'react-dropzone';
 import { useState } from 'react';
 import DragDropSuccessfullAnimation from './components/dragDropSuccessfullAnimation/dragDropSuccessfullAnimation';
 import UploadedFileItem from './components/uploadedFileItem/uploadedFileItem';
+import Modal from 'react-modal';
+
+
 
 
 function App(){
@@ -25,23 +28,27 @@ function App(){
 
   const elementsList = [{elementName: "a folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "another one", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "lol", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" }, {elementName: "document.docx", type: "docx", size: "54 KB", date: "time-stamp" }, {elementName: "image.jpg", type: "jpg", size: "136 KB", date: "time-stamp" }];
 
-  
+  const uploadedFilesContainerRef = useRef<any | HTMLElement>(null);
+
 
 
   function downloadItem(item:any){
+    setModalTextInputDefaultValue(item.elementName)
 
     console.log(`Downloading ${item.type} ${item.elementName}...`)
 
   }
 
   function renameItem(item:any){
-
+    setModalTextInputDefaultValue(item.elementName)
+    setIsOpen(true)
     console.log(`Renaming ${item.type} ${item.elementName}...`)
 
   }
 
   function deleteItem(item:any){
-
+    setModalTextInputDefaultValue(item.elementName)
+    
     console.log(`Deleting ${item.type} ${item.elementName}...`)
 
 
@@ -75,6 +82,38 @@ function App(){
   const [listOfUploaded, setListOfUploaded] = React.useState<any[]>([]);
 
 
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      
+    },
+  };
+
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  const [modalTextInputDefaultValue, setModalTextInputDefaultValue] = useState("");
+
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+    // references are now sync'd and can be accessed.
+
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+
+
 
   
 
@@ -86,6 +125,43 @@ function App(){
   return (
 
     <div className={styles.app}>
+
+      <Modal
+        isOpen={modalIsOpen}
+        onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        style={customStyles}
+        id={styles.modal}
+        contentLabel="Example Modal"
+      >
+
+
+          <div id={styles.topModalContainer}>
+
+
+            <h1 id={styles.renameTitle}>Rename</h1>
+          
+            <button id={styles.closeModalButton} onClick={()=>{setIsOpen(false)}}>&times;</button>
+
+
+          </div>
+
+
+          <input id={styles.modalTextInput} onChange={(e)=>{setModalTextInputDefaultValue(e.target.value)}} autoFocus={true} value={modalTextInputDefaultValue} type="text" placeholder="Name"/>
+
+
+          <div id={styles.bottomModalContainer}>
+        
+            <button id={styles.renameButton}>Rename</button>
+            <button id={styles.cancelButton} onClick={()=>{setIsOpen(false)}}>Cancel</button>
+
+          </div>
+
+
+
+
+
+      </Modal>
 
       <div className={styles.navbar}>
 
@@ -158,6 +234,8 @@ function App(){
 
               
               <h1 className={styles.storageUsedTitle}>25.32 GB used</h1>
+
+              {/**Make a real API call to the server to get real data*/}
             
               <h2 className={styles.storageUsedFreeTitle}>72.8% used - 6.64 GB free</h2>
               
@@ -207,7 +285,8 @@ function App(){
               
 
 
-              <RecentFilesButton itemObject={item}/>
+              <RecentFilesButton itemObject={item}  dropDownMenuOptions={dropDownMenuOptions}/>
+              
 
 
             ))}
@@ -289,6 +368,8 @@ function App(){
 
                 setDragDropSurfaceState("isDropAccepted")
 
+                uploadedFilesContainerRef.current!.scrollIntoView({ behavior: 'smooth' });
+
                 for (let i = 0; i < files.length; i++) {
                   console.log(files[i].size)
                   setListOfUploaded([
@@ -352,7 +433,7 @@ function App(){
               </Dropzone>
 
               {/*display the list of uploaded files*/}
-                <div className={styles.uploadedFilesContainer}>
+                <div className={styles.uploadedFilesContainer} ref={uploadedFilesContainerRef}>
                   
                 {
                     

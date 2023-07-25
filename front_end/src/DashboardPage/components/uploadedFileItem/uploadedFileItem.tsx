@@ -11,7 +11,7 @@ const UploadedFileItem = (props:any) => {
 
   var fileTypeIcongBg:string;
   var fileTypeIconTextBg:string;
-
+  const [fileSizeProgressText, setFileSizeProgressText] = useState("");
 
 
 
@@ -96,7 +96,14 @@ const UploadedFileItem = (props:any) => {
         if (progress < 100) {
           // Increase progress by 0.5 every 50ms
           setProgress((prevProgress) => prevProgress + 0.5);
+          setFileSizeProgressText(`${convertSize(file.size*(progress/100))} of ${convertSize(file.size)}`)
         }
+        if (progress == 100) {
+
+          setFileSizeProgressText(`${convertSize(file.size)}`)
+          
+        }
+
       };
   
       // Start updating progress after 50ms and repeat every 50ms
@@ -139,7 +146,7 @@ const UploadedFileItem = (props:any) => {
   
             <div className={styles.uploadedFileProgressTextContainer}>
   
-              <h1 className={styles.uploadedFileSizeProgressText}>{convertSize(file.size*(progress/100))} of {convertSize(file.size)}</h1>
+              <h1 className={styles.uploadedFileSizeProgressText}>{fileSizeProgressText}</h1>
               <h1 className={styles.uploadedFileSizeProgressPercentageText}>{Math.floor(progress)}%</h1>
   
               
