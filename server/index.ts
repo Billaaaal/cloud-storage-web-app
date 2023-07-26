@@ -10,7 +10,7 @@ const port = 5000;
 
 app.use(cors())
 
-app.use(middleware.decodeToken)
+//app.use(middleware.decodeToken)
 
 
 

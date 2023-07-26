@@ -23,6 +23,16 @@ import Modal from 'react-modal';
 
 function App(){
 
+  //fetch(`http://127.0.0.1:5000/api/check`)
+  //.then(res => res.json())
+  //.then((res: any) => {
+      // res is now an Actor
+
+  //    alert(res.message)
+      
+  //});
+
+
 
   const recentFilesList = [{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},];
 
