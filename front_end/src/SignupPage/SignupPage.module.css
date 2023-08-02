@@ -166,6 +166,14 @@ html, #root, .body {
     cursor: pointer;
 }
 
+.signUpButton:hover{
+
+    background-color: #5f5bb8;
+
+
+}
+
+
 .loginButton:hover{
     background-color: #635ec1;
 }

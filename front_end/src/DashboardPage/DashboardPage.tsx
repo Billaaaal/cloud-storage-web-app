@@ -17,11 +17,58 @@ import { useState } from 'react';
 import DragDropSuccessfullAnimation from './components/dragDropSuccessfullAnimation/dragDropSuccessfullAnimation';
 import UploadedFileItem from './components/uploadedFileItem/uploadedFileItem';
 import Modal from 'react-modal';
-
+import {useLocation, useNavigate} from 'react-router-dom';
 //haha
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, setPersistence } from 'firebase/auth';
+
+
 
 
 function App(){
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC0WzN8b1WZ1BKvYObM_bEOEA7h0NiHmEU",
+    authDomain: "cloudapp-b1e10.firebaseapp.com",
+    projectId: "cloudapp-b1e10",
+    storageBucket: "cloudapp-b1e10.appspot.com",
+    messagingSenderId: "306526058417",
+    appId: "1:306526058417:web:ca2a5ec2035ec1b6806f90",
+    measurementId: "G-G600B1ZV35"
+  };
+
+  
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth();
+
+  const navigate = useNavigate()
+
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      const uid = user.uid;
+      //alert(uid)
+      //then navigate to the dashboard
+      // ...a
+      //console.log("You are signed in")
+    } else {
+      // User is signed out
+      // ...
+
+      //alert("You are not signed in")
+      navigate('/login')
+
+    }
+  });
+  
+  
+  
+
+  
 
   //fetch(`http://127.0.0.1:5000/api/check`)
   //.then(res => res.json())

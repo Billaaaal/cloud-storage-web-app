@@ -167,7 +167,10 @@ html, body, #root, .body {
 }
 
 .loginButton:hover{
-    background-color: #635ec1;
+
+    background-color: #5f5bb8;
+
+
 }
 
 

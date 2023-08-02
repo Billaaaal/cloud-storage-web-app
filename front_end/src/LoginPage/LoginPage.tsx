@@ -1,14 +1,31 @@
 //create react app
-import React from 'react';
+import React, { useState } from 'react';
 
 //import css
 import styles from './LoginPage.module.css';
+import { useNavigate } from 'react-router-dom';
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 
 //import components
 
 
 function App(){
+
+  const navigate = useNavigate()
+
+
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isAuth, setIsAuth] = useState(false);
+  const [token, setToken] = useState('');
+
+
+
+  
 
   return (
 
@@ -26,8 +43,8 @@ function App(){
           <a className={styles.navButtonElement} href='http://localhost:3000/'>Home</a>
           <a className={styles.navButtonElement} href=''>About</a>
           <a className={styles.navButtonElement} href=''>Contact Us</a>
-          <a className={styles.navButtonElement} href=''>Sign Up</a>
-          <button className={styles.navButtonLoginElement}><a>Login</a></button>
+          <a className={styles.navButtonElement} href='/signup'>Sign up</a>
+          <button className={styles.navButtonLoginElement} onClick={()=>{navigate("/login")}}><a>Login</a></button>
 
         </div>
 

@@ -3,12 +3,14 @@ import React from 'react';
 
 //import css
 import styles from './LandingPage.module.css';
-
+import { useNavigate } from 'react-router-dom';
 
 //import components
 
 
 function App(){
+
+  const navigate = useNavigate();
 
   return (
 
@@ -23,11 +25,11 @@ function App(){
 
         <div className={styles.navButtons}>
 
-          <a className={styles.navButtonElement} href=''>Home</a>
+          <a className={styles.navButtonElement} href='/'>Home</a>
           <a className={styles.navButtonElement} href=''>About</a>
           <a className={styles.navButtonElement} href=''>Contact Us</a>
-          <a className={styles.navButtonElement} href=''>Signup</a>
-          <button className={styles.navButtonLoginElement}><a>Login</a></button>
+          <a className={styles.navButtonElement} href='/signup'>Signup</a>
+          <button className={styles.navButtonLoginElement} onClick={()=>{navigate("/login")}}><a>Login</a></button>
 
         </div>
  
@@ -41,7 +43,7 @@ function App(){
 
           <p className={styles.paragraph}>Dedicated resources, full root access, & easy scaling. It’s the virtual private server you’ve been craving</p>
 
-          <button className={styles.mainButton}>Get Started</button>
+          <button className={styles.mainButton} onClick={()=>{navigate("/signup")}}>Get Started</button>
 
 
 
