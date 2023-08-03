@@ -46,11 +46,16 @@ function App(){
   const navigate = useNavigate()
 
 
+  const [currentUserEmail, setCurrentUserEmail] = useState<String |null>("")
+
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/firebase.User
       const uid = user.uid;
+      //alert(user.email)
+      setCurrentUserEmail(user.email)
       //alert(uid)
       //then navigate to the dashboard
       // ...a
@@ -252,7 +257,7 @@ function App(){
             <img className={styles.userProfilePicture}src="https://xsgames.co/randomusers/assets/avatars/male/64.jpg">
             </img>
 
-            <p className={styles.usernameText}>Username</p>
+            <p className={styles.usernameText}>{currentUserEmail}</p>
 
           </div>
 

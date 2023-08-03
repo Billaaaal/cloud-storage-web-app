@@ -3,7 +3,7 @@ import React from 'react';
 
 //import css
 import styles from './LandingPage.module.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 //import components
 
@@ -25,10 +25,10 @@ function App(){
 
         <div className={styles.navButtons}>
 
-          <a className={styles.navButtonElement} href='/'>Home</a>
-          <a className={styles.navButtonElement} href=''>About</a>
-          <a className={styles.navButtonElement} href=''>Contact Us</a>
-          <a className={styles.navButtonElement} href='/signup'>Signup</a>
+          <Link className={styles.navButtonElement} to={'/'}>Home</Link>
+          <Link className={styles.navButtonElement} to={''}>About</Link>
+          <Link className={styles.navButtonElement} to={''}>Contact Us</Link>
+          <Link className={styles.navButtonElement} to={'/signup'}>Sign Up</Link>
           <button className={styles.navButtonLoginElement} onClick={()=>{navigate("/login")}}><a>Login</a></button>
 
         </div>

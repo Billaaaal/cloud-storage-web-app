@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 //import css
 import styles from './SignupPage.module.css';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -48,11 +48,12 @@ function App(){
       //alert(uid)
       //then navigate to the dashboard
       // ...
+      navigate('/dashboard')
     } else {
       // User is signed out
       // ...
 
-      alert("You are not signed in")
+      //lert("You are not signed in")
 
     }
   });
@@ -67,8 +68,16 @@ function App(){
 
     createUserWithEmailAndPassword(auth, email, password)
   
-      .then((userCredentials) => {
-        console.log(userCredentials.user)
+      .then((userCredential) => {
+
+
+        const user = userCredential.user;
+
+        const uid = user.uid;
+
+        //use that uid to make an api call to the backend to create a user in the database and also the files folder
+
+        //maybe also use a token or something like that
 
 
         
@@ -84,6 +93,8 @@ function App(){
           
           //make an api call to the backend to create a user in the database and also the files folder
           //alert("Token: " + idToken);
+
+        console.log(userCredential.user)  
         //});
       
         // Sign up successful, do something if needed
@@ -112,11 +123,11 @@ function App(){
 
 
         <div className={styles.navButtons}>
-
-          <a className={styles.navButtonElement} href='http://localhost:3000/'>Home</a>
-          <a className={styles.navButtonElement} href=''>About</a>
-          <a className={styles.navButtonElement} href=''>Contact Us</a>
-          <a className={styles.navButtonElement} href='/signup'>Sign up</a>
+          
+          <Link className={styles.navButtonElement} to={'/'}>Home</Link>
+          <Link className={styles.navButtonElement} to={''}>About</Link>
+          <Link className={styles.navButtonElement} to={''}>Contact Us</Link>
+          <Link className={styles.navButtonElement} to={'/signup'}>Sign Up</Link>
           <button className={styles.navButtonLoginElement} onClick={()=>{navigate("/login")}}><a>Login</a></button>
 
         </div>
@@ -138,7 +149,7 @@ function App(){
               
               <p className={styles.subTitle}>If you already have an acount</p>
 
-              <p className={styles.subTitle}>You can Sign in  <a href='/login' className={styles.specialColour}> here !</a></p>
+              <p className={styles.subTitle}>You can sign in  <Link to={'/login'} className={styles.specialColour}> here !</Link></p>
             
             </div>
 
