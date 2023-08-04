@@ -34,7 +34,7 @@ function createNewUserInDatabase(uid: string) {
             
             db.ref("users/" + uid).set(
                 {
-                    "isEmpty": true
+                    "isEmpty": "true"
                 }
             ).then(() => {
               
