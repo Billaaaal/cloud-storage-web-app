@@ -48,27 +48,39 @@ function App(){
 
   const [currentUserEmail, setCurrentUserEmail] = useState<String |null>("")
 
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        //alert(user.email)
+        setCurrentUserEmail(user.email)
+        //alert(uid)
+        //then navigate to the dashboard
+        // ...a
+        //console.log("You are signed in")
+      } else {
+        // User is signed out
+        // ...
+  
+        //alert("You are not signed in")
+        navigate('/login')
+  
+      }
+    });
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      const uid = user.uid;
-      //alert(user.email)
-      setCurrentUserEmail(user.email)
-      //alert(uid)
-      //then navigate to the dashboard
-      // ...a
-      //console.log("You are signed in")
-    } else {
-      // User is signed out
-      // ...
 
-      //alert("You are not signed in")
-      navigate('/login')
 
-    }
-  });
+
+  },
+  
+  
+  
+  []);
+
+
+  
   
   
   
