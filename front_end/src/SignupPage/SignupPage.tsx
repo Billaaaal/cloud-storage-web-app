@@ -7,7 +7,8 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, setPersistence } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, setPersistence, getIdToken } from 'firebase/auth';
+import { create } from 'domain';
 
 
 
@@ -57,7 +58,52 @@ function App(){
 
     }
   });
+
+
+
+  function createUserInDB(idToken:String){
+
+
+    
+    // Replace these values with your actual API endpoint and data
   
+
+  // Fetch API POST request
+
+
+
+
+
+
+
+
+
+
+
+  fetch(
+    'http://localhost:5000/api/create-user', {
+    method: 'POST',
+    headers: {
+        'Authorization': `Bearer ${idToken}`,
+        'Content-Type': 'application/json'
+    }
+     // Convert the data to JSON format
+  })
+  .then(response => {
+    if (!response.ok) {
+    }
+    return response.json(); // Parse the response body as JSON
+  })
+  .then(data => {
+    //alert(data);
+    console.log(data.message)
+    // Do something with the response data here
+  })
+
+
+
+
+  }
   
 
 
@@ -75,13 +121,33 @@ function App(){
 
         const uid = user.uid;
 
+        user.getIdToken(/* forceRefresh */ true).then(function(idToken) {
+          // Send token to your backend via HTTPS
+          // ...
+          //alert(idToken)
+
+
+
+          createUserInDB(idToken)
+
+
+        }).catch(function(error) {
+          // Handle error
+        });
+        
+  
+
+      //createUserInDB()
+
         //use that uid to make an api call to the backend to create a user in the database and also the files folder
 
         //maybe also use a token or something like that
 
 
-        
-        navigate('/dashboard')
+      //!!!!!!!!!!!!!!!!!!!!IMPORTANT!!!!!!!!!!!!!!!!!!!!!
+      //navigate('/dashboard')
+
+
         //not good
         //userCredentials.user?.getIdToken().then(function(idToken) {
          // alert(userCredentials.user.email)

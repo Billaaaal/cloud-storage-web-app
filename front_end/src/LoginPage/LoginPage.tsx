@@ -73,7 +73,7 @@ function App(){
         const user = userCredential.user;
 
 
-        navigate('/dashboard')
+        //navigate('/dashboard')
         //not good
         //userCredentials.user?.getIdToken().then(function(idToken) {
          // alert(userCredentials.user.email)
