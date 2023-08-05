@@ -4,16 +4,20 @@
 
 
 
-html, #root, .body {
-    height: 100%;
+html, body, #root{
 
+    width: 100%;
+    background-color: #ffff;
+    
     
     
 }
 
 
-.body{
-    height:100%;
+.app{
+
+    overflow-y:auto;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,6 +25,7 @@ html, #root, .body {
 
     
 }
+
 
 .navbar{
     width: 70%;

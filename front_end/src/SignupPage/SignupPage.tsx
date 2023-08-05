@@ -1,5 +1,5 @@
 //create react app
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 //import css
 import styles from './SignupPage.module.css';
@@ -7,8 +7,10 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, setPersistence, getIdToken } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, setPersistence, getIdToken, deleteUser } from 'firebase/auth';
 import { create } from 'domain';
+import { sign } from 'crypto';
+import handleErrorCode from '../methods/handleErrorCode';
 
 
 
@@ -25,6 +27,10 @@ function App(){
   const [password, setPassword] = useState('');
   const [isAuth, setIsAuth] = useState(false);
   const [token, setToken] = useState('');
+  const [signupErrorMessage, setSignupErrorMessage] = useState('');
+  const [isCurrentlySigningUp, setIsCurrentlySigningUp] = useState(false);
+
+
 
   const firebaseConfig = {
     apiKey: "AIzaSyC0WzN8b1WZ1BKvYObM_bEOEA7h0NiHmEU",
@@ -41,48 +47,72 @@ function App(){
   const analytics = getAnalytics(app);
   const auth = getAuth();
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      const uid = user.uid;
-      //alert(uid)
-      //then navigate to the dashboard
-      // ...
-      navigate('/dashboard')
-    } else {
-      // User is signed out
-      // ...
 
-      //lert("You are not signed in")
+  useEffect(() => {
 
-    }
-  });
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        //alert(uid)
+        //then navigate to the dashboard
+        // ...
 
 
+        //navigate('/dashboard')
 
-  function createUserInDB(idToken:String){
+
+        const dateObject = new Date(user.metadata.creationTime?.toString()!).getTime() / 1000
 
 
-    
-    // Replace these values with your actual API endpoint and data
+
+        const currentTimestamp = Date.now() / 1000;
+
+        if (currentTimestamp - dateObject < 8){
+
+
+        }else{
+
+          navigate('/dashboard')
+
+
+
+        }
+      
+        
+
+
+
+      } else {
+        // User is signed out
+        // ...
+  
+        //lert("You are not signed in")
+  
+      }
+    });
   
 
+
+  }, []);
+
+
+  
+
+
+  function createUserInDB(idToken:String, user:any){
+    
+  // Replace these values with your actual API endpoint and data
+
   // Fetch API POST request
-
-
-
-
-
-
-
-
 
 
 
   fetch(
     'http://localhost:5000/api/create-user', {
     method: 'POST',
+    
     headers: {
         'Authorization': `Bearer ${idToken}`,
         'Content-Type': 'application/json'
@@ -90,29 +120,89 @@ function App(){
      // Convert the data to JSON format
   })
   .then(response => {
-    if (!response.ok) {
+
+//    alert("Creating user in DB")
+
+    //response.status
+    //if (!response.ok) {
+    //}
+
+
+
+
+    if (response.status === 200) {
+
+      navigate('/dashboard')
+      setIsCurrentlySigningUp(false)
+
+
+    }
+    else{
+
+
+      setSignupErrorMessage("Server error")
+
+
+      user.delete().then(() => {
+
+      setIsCurrentlySigningUp(false)
+
+
+      })
+
+
+
+
     }
     return response.json(); // Parse the response body as JSON
   })
   .then(data => {
     //alert(data);
-    console.log(data.message)
+   // console.log(data.message)
+   //console.log(data)
     // Do something with the response data here
+  }).catch((error) => {
+
+    //alert("Error")
+
+    setSignupErrorMessage("Server error")
+
+    user.delete().then(() => {
+
+    setIsCurrentlySigningUp(false)
+
+
+    })
+
+
   })
 
 
 
 
   }
+
+
   
 
 
 
   function handleSignup(e:any) {
     e.preventDefault(); // Stop the form from submitting
-    
 
-    createUserWithEmailAndPassword(auth, email, password)
+    if (!email?.toString().trim()){
+      setSignupErrorMessage("Enter an Email")
+
+    }else if(!password?.toString().trim()){
+
+      setSignupErrorMessage("Enter a Password")
+
+    }
+    else{
+
+      setIsCurrentlySigningUp(true)
+
+      createUserWithEmailAndPassword(auth, email, password)
   
       .then((userCredential) => {
 
@@ -128,10 +218,14 @@ function App(){
 
 
 
-          createUserInDB(idToken)
+          createUserInDB(idToken, user)
 
 
         }).catch(function(error) {
+
+          setIsCurrentlySigningUp(false)
+
+
           // Handle error
         });
         
@@ -170,16 +264,33 @@ function App(){
       })
       .catch((error) => {
         // Sign up failed, handle the error
-        alert(error);
+
+        //console.log(error.code)
+        
+
+        setSignupErrorMessage(handleErrorCode(error.code)!.toString())
+        
+      
+        //setSignupErrorMessage(error.message)
+
       });
  
+
+
+
+
+
+    }
+    
+
+    
   }
 
   
 
   return (
 
-    <div className={styles.body}>
+    <div className={styles.app}>
 
       <div className={styles.navbar}>
 
@@ -246,6 +357,8 @@ function App(){
 
           <input className={styles.textInputField}  type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
 
+          <h1 className={styles.signupErrorMessageTitle}>{signupErrorMessage}</h1>
+          
           <button className={styles.signUpButton} onClick={(e)=>{handleSignup(e)}}>Sign Up</button>
 
         </div>

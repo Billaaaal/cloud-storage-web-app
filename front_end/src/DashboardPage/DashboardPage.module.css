@@ -9,6 +9,7 @@ html, body, #root{
     height: 100%;
     width: 100%;
     overflow-x: hidden;
+    background-color: #ffff;
     
 
 
@@ -132,18 +133,31 @@ html, body, #root{
     justify-content: space-between;
     margin-right: 0px;
 }
-.notificationsButton{
+.logOutButton{
     cursor: pointer;
-    margin-right: 20px;
+    margin-left: 20px;
     display: flex;
-    height: 30px;
-    width: 30px;
-    border-radius: 10px; /* Adds border radius */
+    height: 35px;
+    width: 35px;
+    border-radius: 9px; /* Adds border radius */
     background-color: transparent;
     align-items: center;
     outline: none;
     border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+}
+
+
+.logOutButton:hover{
+    background-color: #e1d7d7;
+}
+
+.logOutButtonIcon{
+    width: 18px;
+    height: 18px;
 }
 
 
@@ -887,8 +901,8 @@ html, body, #root{
 
 @media screen and (max-width: 1000px){
 
-    .notificationsButton{
-        display: none;
+    .logOutButton{
+        
     }
     .filterButton{
         display: none;
@@ -963,6 +977,11 @@ html, body, #root{
     }
 
 
+}
+@media screen and (max-width: 800px){
+    .usernameText{
+        display: none;
+    }
 }
 
 

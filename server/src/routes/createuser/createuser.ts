@@ -103,35 +103,59 @@ router.post("/", (req, res) => {
     //console.log(req.headers)
 
     const idToken = req.headers.authorization!.split(' ')[1];
-    if(!idToken) return res.json({ message: `Hello you are not authorized` });
+    if(!idToken){
+      
+        res.status(400).json({ message: `Error` }).send();
+    
+    }
+    else{
 
-    console.log("Verifying token...")
+                
+        console.log("Verifying token...")
 
 
-    admin.
-    auth()
-    .verifyIdToken(idToken)
-    .then((decodedToken) => {
-        const uid = decodedToken.uid;
         
-  
-        console.log("Welcome "+ decodedToken.email)
-//        return res.json({ message: `Welcome, this is the backend ${decodedToken.email}` });
-        //createNewUser(uid)
-
-        createNewUserInDatabase(uid)
 
 
+        admin.
+        auth()
+        .verifyIdToken(idToken)
+        .then((decodedToken) => {
+            const uid = decodedToken.uid;
+            
+    
+    //        return res.json({ message: `Welcome, this is the backend ${decodedToken.email}` });
+            //createNewUser(uid)
 
-    })
-    .catch((error) => {
-        // Handle error
-    });
+            
+
+
+            createNewUserInDatabase(uid)
+
+            res.status(200).json({ message: `Success` }).send();
+
+
+
+            console.log("Welcome " + decodedToken.email)
+
+
+
+        })
+        .catch((error) => {
+            // Handle error
+
+            res.status(400).json({ message: `Error` }).send();
+            
+            console.log(error)
+            
+        });
 
 
 
 
-    return res.json({ message: `Hello you are authorized !` });
+    }    
+    
+
 
 });
 

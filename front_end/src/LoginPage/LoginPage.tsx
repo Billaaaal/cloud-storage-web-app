@@ -1,5 +1,5 @@
 //create react app
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 //import css
 import styles from './LoginPage.module.css';
@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import handleErrorCode from '../methods/handleErrorCode';
 
 
 //import components
@@ -22,6 +23,10 @@ function App(){
   const [password, setPassword] = useState('');
   const [isAuth, setIsAuth] = useState(false);
   const [token, setToken] = useState('');
+  const [loginErrorMessage, setLoginErrorMessage] = useState('');
+
+
+
 
   const firebaseConfig = {
     apiKey: "AIzaSyC0WzN8b1WZ1BKvYObM_bEOEA7h0NiHmEU",
@@ -38,23 +43,34 @@ function App(){
   const analytics = getAnalytics(app);
   const auth = getAuth();
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      const uid = user.uid;
-      //alert(uid)
-      //then navigate to the dashboard
-      // ...
-      navigate('/dashboard')
-    } else {
-      // User is signed out
-      // ...
+  
 
-      //lert("You are not signed in")
+  useEffect(() => {
+    //alert("Login page has been mounted")
 
-    }
-  });
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        //alert(uid)
+        //then navigate to the dashboard
+        // ...
+        navigate('/dashboard')
+
+
+
+      } else {
+        // User is signed out
+        // ...
+  
+        //lert("You are not signed in")
+  
+      }
+    });
+
+
+  }, []);
   
   
 
@@ -62,9 +78,19 @@ function App(){
 
   function handleLogin(e:any) {
     e.preventDefault(); // Stop the form from submitting
-    
 
-    signInWithEmailAndPassword(auth, email, password)
+    if (!email?.toString().trim()){
+      setLoginErrorMessage("Enter an Email")
+
+    }else if(!password?.toString().trim()){
+
+      setLoginErrorMessage("Enter a Password")
+
+    }
+    else{
+     // handleSignup(e)
+
+     signInWithEmailAndPassword(auth, email, password)
   
       .then((userCredential) => {
         //console.log(userCredentials.user)
@@ -73,7 +99,7 @@ function App(){
         const user = userCredential.user;
 
 
-        //navigate('/dashboard')
+        navigate('/dashboard')
         //not good
         //userCredentials.user?.getIdToken().then(function(idToken) {
          // alert(userCredentials.user.email)
@@ -94,9 +120,20 @@ function App(){
       })
       .catch((error) => {
         // Sign up failed, handle the error
-        alert(error);
+      
+        setLoginErrorMessage(handleErrorCode(error.code)!.toString())
+      
+      
       });
  
+
+
+
+
+    }
+    
+
+    
   }
 
 
@@ -105,7 +142,7 @@ function App(){
 
   return (
 
-    <div className={styles.body}>
+    <div className={styles.app}>
 
       <div className={styles.navbar}>
 
@@ -172,6 +209,9 @@ function App(){
 
           <input className={styles.textInputField}  type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
 
+          <h1 className={styles.loginErrorMessageTitle}>{loginErrorMessage}</h1>
+
+          
           <button className={styles.loginButton} onClick={(e)=>{handleLogin(e)}}>Login</button>
 
         </div>

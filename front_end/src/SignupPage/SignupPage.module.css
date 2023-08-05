@@ -4,16 +4,20 @@
 
 
 
-html, #root, .body {
-    height: 100%;
+html, body, #root{
 
+    width: 100%;
+    background-color: #ffff;
+    
     
     
 }
 
 
-.body{
-    height:100%;
+.app{
+
+    overflow-y:auto;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -123,10 +127,8 @@ html, #root, .body {
     border-radius: 9px;
     background-color: #f0efff;
     border: none;
-    margin-bottom: 30px;
     text-indent: 30px;
-
-    
+    margin-bottom: 30px;    
 }
 
 .textInputField[type="text"], .textInputField[type="password"]{
@@ -150,10 +152,23 @@ html, #root, .body {
     
 }
 
+.signupErrorMessageTitle{
+    
+    font-family: 'Poppins';
+    font-weight: 500;
+    font-size: 1.2rem;
+    color: rgb(255, 57, 57);
+    margin-left: 10px;
+    margin-top: 0px;
+    max-width: 450px;
+
+}
+
+
 
 
 .signUpButton{
-    margin-top: 40px;
+    margin-top: 30px;
     width: 100%;
     height: 81px;
     border-radius: 9px;
@@ -172,12 +187,6 @@ html, #root, .body {
 
 
 }
-
-
-.loginButton:hover{
-    background-color: #635ec1;
-}
-
 
 
 .presentationContainer{
@@ -269,7 +278,7 @@ html, #root, .body {
 
 @media screen and (max-width: 1200px){
 
-    .body{
+    .mainContainer{
         padding-bottom: 100px;
     }
 

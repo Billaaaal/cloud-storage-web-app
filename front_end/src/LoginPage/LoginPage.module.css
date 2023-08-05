@@ -3,17 +3,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap');
 
 
+html, body, #root{
 
-html, body, #root, .body {
-    height: 100%;
-
+    width: 100%;
+    background-color: #ffff;
+    
     
     
 }
 
 
-.body{
-    height:100%;
+.app{
+
+    overflow-y:auto;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -116,6 +119,8 @@ html, body, #root, .body {
 
 }
 
+
+
 .textInputField{
     
     width: 500px;
@@ -123,10 +128,8 @@ html, body, #root, .body {
     border-radius: 9px;
     background-color: #f0efff;
     border: none;
-    margin-bottom: 30px;
     text-indent: 30px;
-
-    
+    margin-bottom: 30px;    
 }
 
 .textInputField[type="text"], .textInputField[type="password"]{
@@ -150,10 +153,23 @@ html, body, #root, .body {
     
 }
 
+.loginErrorMessageTitle{
+    
+    font-family: 'Poppins';
+    font-weight: 500;
+    font-size: 1.2rem;
+    color: rgb(255, 57, 57);
+    margin-left: 10px;
+    margin-top: 0px;
+    max-width: 450px;
+
+}
+
+
 
 
 .loginButton{
-    margin-top: 40px;
+    margin-top: 30px;
     width: 100%;
     height: 81px;
     border-radius: 9px;
@@ -172,6 +188,8 @@ html, body, #root, .body {
 
 
 }
+
+
 
 
 
@@ -264,7 +282,7 @@ html, body, #root, .body {
 
 @media screen and (max-width: 1200px){
 
-    .body{
+    .mainContainer{
         padding-bottom: 100px;
     }
 

@@ -3,7 +3,7 @@ import React, {useCallback, useEffect, useRef} from 'react'
 import styles from './DashboardPage.module.css';
 import search from './assets/search.svg'
 import filterIcon from './assets/filter_icon.svg'
-import bell from './assets/bell.svg'
+import logOutIcon from './assets/logOutIcon.svg'
 import SidePannelButton from './components/sidePannelButton/sidepannelButton'
 import SideButtonsList from './SideButtonsList'
 import ScrollContainer from 'react-indiana-drag-scroll'
@@ -21,7 +21,7 @@ import {useLocation, useNavigate} from 'react-router-dom';
 //haha
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, setPersistence } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, setPersistence, signOut } from 'firebase/auth';
 
 
 
@@ -45,10 +45,20 @@ function App(){
 
   const navigate = useNavigate()
 
+  function signOutFromFirebase(){
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      navigate('/login')
+    });
+  }
+
 
   const [currentUserEmail, setCurrentUserEmail] = useState<String |null>("")
 
+
+  
   useEffect(() => {
+
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
@@ -71,10 +81,7 @@ function App(){
     });
 
 
-
-
   },
-  
   
   
   []);
@@ -259,9 +266,7 @@ function App(){
 
         <div className={styles.userContainer}>
 
-          <button className={styles.notificationsButton}>
-            <img className={styles.notificationsButtonIcon} src={bell}></img>
-          </button>
+          
 
           <div className={styles.userInfoContainer}>
 
@@ -272,6 +277,11 @@ function App(){
             <p className={styles.usernameText}>{currentUserEmail}</p>
 
           </div>
+
+          <button className={styles.logOutButton} title={"Log out"} onClick={()=>{signOutFromFirebase()}}>
+            <img className={styles.logOutButtonIcon} src={logOutIcon}></img>
+          </button>
+
 
         </div>
 

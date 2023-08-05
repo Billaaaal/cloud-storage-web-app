@@ -14,7 +14,7 @@ function App(){
 
   return (
 
-    <div className={styles.body}>
+    <div className={styles.app}>
 
       <div className={styles.navbar}>
 
