@@ -52,6 +52,8 @@ function App(){
     });
   }
 
+  //alert("Listening even from the dashboard")
+
 
   const [currentUserEmail, setCurrentUserEmail] = useState<String |null>("")
 
@@ -59,7 +61,10 @@ function App(){
   
   useEffect(() => {
 
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      
+
+      
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
@@ -81,7 +86,19 @@ function App(){
     });
 
 
+    
+    return () => {
+      
+      unsubscribe()
+      
+      // Clean up side effects or subscriptions here when the component unmounts
+    };
+
+
+
   },
+
+  
   
   
   []);

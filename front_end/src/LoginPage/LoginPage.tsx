@@ -43,12 +43,27 @@ function App(){
   const analytics = getAnalytics(app);
   const auth = getAuth();
 
+
+  //alert("Listening even from the login page")
   
 
   useEffect(() => {
+
+
+    
+
+
+
+
+
     //alert("Login page has been mounted")
 
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+
+
+
+
+
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
@@ -58,6 +73,7 @@ function App(){
         // ...
         navigate('/dashboard')
 
+        //maybe add the same logic as in the signup page with the timestamp check
 
 
       } else {
@@ -69,6 +85,14 @@ function App(){
       }
     });
 
+    
+    return () => {
+      
+      unsubscribe()
+      
+      // Clean up side effects or subscriptions here when the component unmounts
+    };
+
 
   }, []);
   
@@ -78,6 +102,9 @@ function App(){
 
   function handleLogin(e:any) {
     e.preventDefault(); // Stop the form from submitting
+
+    setLoginErrorMessage("")
+    
 
     if (!email?.toString().trim()){
       setLoginErrorMessage("Enter an Email")
@@ -202,12 +229,12 @@ function App(){
 
         <div className={styles.signInContainer}>
 
-        <h1 className={styles.signInContainerTitle}>Sign in</h1>
+          <h1 className={styles.signInContainerTitle}>Sign in</h1>
 
 
-          <input className={styles.textInputField} type='text' placeholder='Email'value={email} onChange={(e) => setEmail(e.target.value)}></input>
+          <input onKeyDown={(e)=>{if(e.key === "Enter"){handleLogin(e)}}} className={styles.textInputField} type='text' placeholder='Email'value={email} onChange={(e) => setEmail(e.target.value)}></input>
 
-          <input className={styles.textInputField}  type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
+          <input onKeyDown={(e)=>{if(e.key === "Enter"){handleLogin(e)}}} className={styles.textInputField}  type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
 
           <h1 className={styles.loginErrorMessageTitle}>{loginErrorMessage}</h1>
 

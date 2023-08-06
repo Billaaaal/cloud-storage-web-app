@@ -19,7 +19,7 @@ function handleErrorCode(errorCode:String){
       case 'auth/network-request-failed':
         return ('Network request failed')
       case 'auth/user-not-found':
-        return ('User not found')
+        return ('User not found') //not secure so maybe use rather 'Email or password incorrect'
       case 'auth/wrong-password':
         return ('Wrong password')
       //case no email was provided

@@ -11,6 +11,7 @@ import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, setPersist
 import { create } from 'domain';
 import { sign } from 'crypto';
 import handleErrorCode from '../methods/handleErrorCode';
+import { unsubscribe } from 'diagnostics_channel';
 
 
 
@@ -50,7 +51,7 @@ function App(){
 
   useEffect(() => {
 
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
@@ -63,17 +64,25 @@ function App(){
         //navigate('/dashboard')
 
 
-        const dateObject = new Date(user.metadata.creationTime?.toString()!).getTime() / 1000
+        const dateObject = (new Date(user.metadata.creationTime?.toString()!).getTime()) / 1000
+
+        const currentTimestamp = (Date.now()) / 1000;
+
+
+        console.log(user.metadata.creationTime + " " + (currentTimestamp - dateObject))
 
 
 
-        const currentTimestamp = Date.now() / 1000;
+        
+        if (Math.round(currentTimestamp - dateObject) < 10){
 
-        if (currentTimestamp - dateObject < 8){
+          console.log("Condition met: you've just sign up")
 
 
         }else{
-
+          console.log("Condition met : you're about to go to dashboard")
+          
+          
           navigate('/dashboard')
 
 
@@ -92,6 +101,13 @@ function App(){
   
       }
     });
+
+    return () => {
+      
+      unsubscribe()
+      
+      // Clean up side effects or subscriptions here when the component unmounts
+    };
   
 
 
@@ -145,7 +161,6 @@ function App(){
 
       user.delete().then(() => {
 
-      setIsCurrentlySigningUp(false)
 
 
       })
@@ -189,6 +204,8 @@ function App(){
 
   function handleSignup(e:any) {
     e.preventDefault(); // Stop the form from submitting
+
+    setSignupErrorMessage("")
 
     if (!email?.toString().trim()){
       setSignupErrorMessage("Enter an Email")
@@ -353,9 +370,9 @@ function App(){
           <h1 className={styles.signUpContainerTitle}>Sign Up</h1>
 
 
-          <input className={styles.textInputField} type='text' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)}></input>
+          <input onKeyDown={(e)=>{if(e.key === "Enter"){handleSignup(e)}}} className={styles.textInputField} type='text' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)}></input>
 
-          <input className={styles.textInputField}  type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
+          <input onKeyDown={(e)=>{if(e.key === "Enter"){handleSignup(e)}}} className={styles.textInputField}  type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
 
           <h1 className={styles.signupErrorMessageTitle}>{signupErrorMessage}</h1>
           
