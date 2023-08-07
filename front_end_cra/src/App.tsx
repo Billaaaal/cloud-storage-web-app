@@ -17,12 +17,12 @@ import DashboardPage from './DashboardPage/DashboardPage'
 
 
 function App() {
+  
  
   return (
     
     <div className="wrapper">
       <Routes>
- 
         <Route path="" element={<LandingPage/>}/>
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/signup" element={<SignupPage/>}/>

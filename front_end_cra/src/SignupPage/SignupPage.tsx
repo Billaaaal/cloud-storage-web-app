@@ -29,6 +29,7 @@ function App(){
   const [isAuth, setIsAuth] = useState(false);
   const [token, setToken] = useState('');
   const [signupErrorMessage, setSignupErrorMessage] = useState('');
+  const [isCurrentlySigningUp, setIsCurrentlySigningUp] = useState(false);
 
 
 
@@ -122,17 +123,10 @@ function App(){
 
   // Fetch API POST request
 
-  const controller = new AbortController()
-  const signal = controller.signal
-
 
 
   fetch(
-    'http://localhost:5000/api/create-user',
-
-    
-     {
-      signal,
+    'http://localhost:5000/api/create-user', {
     method: 'POST',
     
     headers: {
@@ -140,9 +134,7 @@ function App(){
         'Content-Type': 'application/json'
     }
      // Convert the data to JSON format
-  }
-  
-  )
+  })
   .then(response => {
 
 //    alert("Creating user in DB")
@@ -157,7 +149,7 @@ function App(){
     if (response.status === 200) {
 
       navigate('/dashboard')
-      
+      setIsCurrentlySigningUp(false)
 
 
     }
@@ -192,15 +184,13 @@ function App(){
 
     user.delete().then(() => {
 
-    
+    setIsCurrentlySigningUp(false)
 
 
     })
 
 
   })
-
-  setTimeout(() => controller.abort(), 6000)
 
 
 
@@ -227,7 +217,7 @@ function App(){
     }
     else{
 
-      
+      setIsCurrentlySigningUp(true)
 
       createUserWithEmailAndPassword(auth, email, password)
   
@@ -250,7 +240,7 @@ function App(){
 
         }).catch(function(error) {
 
-          
+          setIsCurrentlySigningUp(false)
 
 
           // Handle error
@@ -386,7 +376,7 @@ function App(){
 
           <h1 className={styles.signupErrorMessageTitle}>{signupErrorMessage}</h1>
           
-          <button className={styles.signUpButton} onClick={(e)=>{handleSignup(e)}}>{ "isDraggedOver" == "isDraggedOver"   ? <div className={styles.loadingAnimation}></div>   : <span>Sign Up</span> }</button>
+          <button className={styles.signUpButton} onClick={(e)=>{handleSignup(e)}}>Sign Up</button>
 
         </div>
 
