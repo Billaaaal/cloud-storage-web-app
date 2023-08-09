@@ -29,6 +29,7 @@ function App(){
   const [isAuth, setIsAuth] = useState(false);
   const [token, setToken] = useState('');
   const [signupErrorMessage, setSignupErrorMessage] = useState('');
+  const [isSignupLoading, setIsSignupLoading] = useState(false);
 
 
 
@@ -157,6 +158,7 @@ function App(){
     if (response.status === 200) {
 
       navigate('/dashboard')
+      setIsSignupLoading(false)
       
 
 
@@ -165,6 +167,7 @@ function App(){
 
 
       setSignupErrorMessage("Server error")
+      setIsSignupLoading(false)
 
 
       user.delete().then(() => {
@@ -189,6 +192,7 @@ function App(){
     //alert("Error")
 
     setSignupErrorMessage("Server error")
+    setIsSignupLoading(false)
 
     user.delete().then(() => {
 
@@ -215,14 +219,18 @@ function App(){
   function handleSignup(e:any) {
     e.preventDefault(); // Stop the form from submitting
 
+    setIsSignupLoading(true)
+
     setSignupErrorMessage("")
 
     if (!email?.toString().trim()){
       setSignupErrorMessage("Enter an Email")
+      setIsSignupLoading(false)
 
     }else if(!password?.toString().trim()){
 
       setSignupErrorMessage("Enter a Password")
+      setIsSignupLoading(false)
 
     }
     else{
@@ -296,6 +304,8 @@ function App(){
         
 
         setSignupErrorMessage(handleErrorCode(error.code)!.toString())
+        setIsSignupLoading(false)
+
         
       
         //setSignupErrorMessage(error.message)
@@ -386,7 +396,7 @@ function App(){
 
           <h1 className={styles.signupErrorMessageTitle}>{signupErrorMessage}</h1>
           
-          <button className={styles.signUpButton} onClick={(e)=>{handleSignup(e)}}>{ "isDraggedOver" == "isDraggedOver"   ? <div className={styles.loadingAnimation}></div>   : <span>Sign Up</span> }</button>
+          <button className={styles.signUpButton} onClick={(e)=>{handleSignup(e)}}>{ isSignupLoading   ? <div className={styles.loadingAnimation}></div>   : <span>Sign Up</span> }</button>
 
         </div>
 

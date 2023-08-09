@@ -24,7 +24,8 @@ function App(){
   const [isAuth, setIsAuth] = useState(false);
   const [token, setToken] = useState('');
   const [loginErrorMessage, setLoginErrorMessage] = useState('');
-
+  const [isLoginLoading, setIsLoginLoading] = useState(false);
+ 
 
 
 
@@ -104,6 +105,9 @@ function App(){
     e.preventDefault(); // Stop the form from submitting
 
     setLoginErrorMessage("")
+
+    setIsLoginLoading(true)
+
     
 
     if (!email?.toString().trim()){
@@ -122,6 +126,7 @@ function App(){
       .then((userCredential) => {
         //console.log(userCredentials.user)
 
+        setIsLoginLoading(false)
 
         const user = userCredential.user;
 
@@ -149,6 +154,7 @@ function App(){
         // Sign up failed, handle the error
       
         setLoginErrorMessage(handleErrorCode(error.code)!.toString())
+      setIsLoginLoading(false)
       
       
       });
@@ -239,7 +245,7 @@ function App(){
           <h1 className={styles.loginErrorMessageTitle}>{loginErrorMessage}</h1>
 
           
-          <button className={styles.loginButton} onClick={(e)=>{handleLogin(e)}}>Login</button>
+          <button className={styles.loginButton} onClick={(e)=>{handleLogin(e)}}>{ isLoginLoading   ? <div className={styles.loadingAnimation}></div>   : <span>Login</span> }</button>
 
         </div>
 

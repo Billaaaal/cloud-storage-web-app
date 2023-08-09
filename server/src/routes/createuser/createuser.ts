@@ -1,6 +1,6 @@
 import express from "express";
 import admin from "firebase-admin";
-import { readdirSync, rmSync, writeFileSync, mkdirSync } from "fs";
+import { readdirSync, rmSync, writeFileSync, mkdirSync, existsSync } from "fs";
 
 var router = express.Router();
 
@@ -66,6 +66,14 @@ function createNewUserFolder(uid: string) {
 
     //mkdirSync(`./files_folder/${uid}`)
 
+
+    if(!existsSync("./files_folder")){
+
+        mkdirSync("./files_folder")
+
+    }
+
+    
 
     if (readdirSync("./files_folder").includes(uid)) {
         console.log("user folder already exists")

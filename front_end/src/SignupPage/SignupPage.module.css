@@ -209,10 +209,10 @@ html, body, #root{
 }
 
 .loadingAnimation {
-	width: 30px;
-	height: 30px;
+	width: 25px;
+	height: 25px;
 	margin: 0 auto 0;
-	border:solid 5px #fff;
+	border:solid 4px #fff;
 	border-radius: 50%;
 	border-right-color: transparent;
 	border-bottom-color: transparent;
