@@ -276,7 +276,7 @@ function App(){
 
         </div>
 
-        <button className={styles.filterButton}>
+        <button className={styles.newFolder}>
           Filter
           <img className={styles.filterIcon} src={filterIcon}></img>
         </button>

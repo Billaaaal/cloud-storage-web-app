@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef} from 'react'
+import React, {useEffect, useRef} from 'react'
 //import css
 import styles from './DashboardPage.module.css';
 import search from './assets/search.svg'
@@ -9,39 +9,63 @@ import SideButtonsList from './SideButtonsList'
 import ScrollContainer from 'react-indiana-drag-scroll'
 import RecentFilesButton from './components/recentFilesButton/recentFilesButton'
 import ElementButton from './components/elementButton/elementButton';
-import folderIcon from './assets/folder.svg'
-import { Dropdown, Menu } from 'antd';
-import type { MenuProps } from 'antd';
+//import folderIcon from './assets/folder.svg'
+//import { Dropdown, Menu } from 'antd';
+//import type { MenuProps } from 'antd';
 import Dropzone from 'react-dropzone';
 import { useState } from 'react';
 import DragDropSuccessfullAnimation from './components/dragDropSuccessfullAnimation/dragDropSuccessfullAnimation';
 import UploadedFileItem from './components/uploadedFileItem/uploadedFileItem';
 import Modal from 'react-modal';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 //haha
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, setPersistence, signOut } from 'firebase/auth';
-
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import RenameModal from './components/renameModal/renameModal';
+import addIcon from './assets/addIcon.svg'
+import NewFolderModal from './components/newFolderModal/newFolderModal';
+import { get, getDatabase, onValue, ref } from 'firebase/database';
 
 
 
 function App(){
 
   const firebaseConfig = {
-    apiKey: "AIzaSyC0WzN8b1WZ1BKvYObM_bEOEA7h0NiHmEU",
-    authDomain: "cloudapp-b1e10.firebaseapp.com",
-    projectId: "cloudapp-b1e10",
-    storageBucket: "cloudapp-b1e10.appspot.com",
-    messagingSenderId: "306526058417",
-    appId: "1:306526058417:web:ca2a5ec2035ec1b6806f90",
-    measurementId: "G-G600B1ZV35"
+
+  apiKey: "AIzaSyC0WzN8b1WZ1BKvYObM_bEOEA7h0NiHmEU",
+
+  authDomain: "cloudapp-b1e10.firebaseapp.com",
+
+  databaseURL: "https://cloudapp-b1e10-default-rtdb.europe-west1.firebasedatabase.app",
+
+  projectId: "cloudapp-b1e10",
+
+  storageBucket: "cloudapp-b1e10.appspot.com",
+
+  messagingSenderId: "306526058417",
+
+  appId: "1:306526058417:web:ca2a5ec2035ec1b6806f90",
+
+  measurementId: "G-G600B1ZV35"
+
   };
+
+
 
   
   const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+  //const analytics = getAnalytics(app);
   const auth = getAuth();
+
+
+
+
+  
+
+
+
+
 
   const navigate = useNavigate()
 
@@ -57,9 +81,24 @@ function App(){
 
   const [currentUserEmail, setCurrentUserEmail] = useState<String |null>("")
 
+  const [renameModalIsOpen, setRenameModalIsOpen] = useState(false);
+
+  const [selectedItem, setSelectedItem] = useState<any | null>("")
+
+  const [currentPath, setCurrentPath] = useState("/My Files/Work 2023/")
+
+  const [currentIdToken, setCurrentIdToken] = useState("")
+
+  const [newFolderModalIsOpen, setNewFolderModalIsOpen] = useState(false);
+
+
 
   
   useEffect(() => {
+
+    console.log("This is supposed to run once")
+
+
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       
@@ -68,9 +107,37 @@ function App(){
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
-        const uid = user.uid;
+        //const uid = user.uid;
         //alert(user.email)
         setCurrentUserEmail(user.email)
+
+        
+        
+
+
+        user.getIdToken(/* forceRefresh */ true).then(function(idToken) {
+          // Send token to your backend via HTTPS
+          // ...
+          //alert(idToken)
+
+          listenToDatabaseChanges()
+          
+
+
+          setCurrentIdToken(idToken)
+
+
+        }).catch(function(error) {
+
+          
+
+
+          // Handle error
+        });
+
+
+
+
         //alert(uid)
         //then navigate to the dashboard
         // ...a
@@ -103,7 +170,35 @@ function App(){
   
   []);
 
+  function listenToDatabaseChanges(){
 
+    
+
+    console.log("Listening to changes in the database " + "users/" + auth.currentUser?.uid)
+   // console.log("Listening to changes in the database: " +  "/users/"+user.uid+'/My Files/' )
+    //
+
+    const db = getDatabase();
+    
+
+    const tasksRef = ref(db, "users/" + auth.currentUser?.uid);
+
+        
+    get(tasksRef)
+    .then((snapshot) => {
+
+      console.log("There have been changes")
+
+      const data = snapshot.val();
+      console.log(data);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+    
+
+
+  }
   
   
   
@@ -120,7 +215,7 @@ function App(){
       
   //});
 
-
+  
 
   const recentFilesList = [{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},];
 
@@ -131,23 +226,40 @@ function App(){
 
 
   function downloadItem(item:any){
-    setModalTextInputDefaultValue(item.elementName)
+    //setModalTextInputDefaultValue(item.elementName)
 
     console.log(`Downloading ${item.type} ${item.elementName}...`)
 
   }
 
-  function renameItem(item:any){
-    setModalTextInputDefaultValue(item.elementName)
-    setIsOpen(true)
-    console.log(`Renaming ${item.type} ${item.elementName}...`)
+  function openRenameModal(item:any){
+    setSelectedItem(item)
+    setRenameModalIsOpen(true)
+    //console.log(`Renaming ${item.type} ${item.elementName}...`)
 
   }
 
+  function renameItem(item:any, newName:String){
+    setRenameModalIsOpen(false)
+    console.log(`Renaming ${item.type} ${item.elementName}... to ${newName}`)
+  }
+
+  function createNewFolder(folderName:String){
+
+
+    console.log("Creating new folder named " + folderName + " in " + currentPath)
+
+    setNewFolderModalIsOpen(false)
+
+
+  }
+
+
+
   function deleteItem(item:any){
-    setModalTextInputDefaultValue(item.elementName)
+    //setModalTextInputDefaultValue(item.elementName)
     
-    console.log(`Deleting ${item.type} ${item.elementName}...`)
+    //console.log(`Deleting ${item.type} ${item.elementName}...`)
 
 
   }
@@ -157,7 +269,7 @@ function App(){
   
   const dropDownMenuOptions = (item:object) => [
     { label: (<div onClick={()=>{downloadItem(item)}}>Download</div>), key: 'download' },
-    { label: (<div onClick={()=>{renameItem(item)}}>Rename</div>), key: 'rename' },
+    { label: (<div onClick={()=>{openRenameModal(item)}}>Rename</div>), key: 'rename' },
     { label: (<div onClick={()=>{deleteItem(item)}}>Delete</div>), key: 'delete' },
   ]
 
@@ -180,25 +292,8 @@ function App(){
   const [listOfUploaded, setListOfUploaded] = React.useState<any[]>([]);
 
 
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      
-    },
-  };
-
-  const [modalIsOpen, setIsOpen] = useState(false);
-
-  const [modalTextInputDefaultValue, setModalTextInputDefaultValue] = useState("");
-
-
   function openModal() {
-    setIsOpen(true);
+    setRenameModalIsOpen(true);
   }
 
   function afterOpenModal() {
@@ -207,10 +302,97 @@ function App(){
   }
 
   function closeModal() {
-    setIsOpen(false);
   }
 
 
+
+  function uploadFiles(files: File[]){
+
+
+    
+    //console.log(files)
+
+    setDragDropSurfaceState("isDropAccepted")
+
+    uploadedFilesContainerRef.current!.scrollIntoView({ behavior: 'smooth' });
+
+    // Send files to the backend
+    const formData = new FormData();
+
+
+    //console.log(`The last uploaded file is : ${files[Math.max(files.length-1, 0)].name}`)
+
+
+    formData.append('file', files[Math.max(files.length-1, 0)]);
+    formData.append("pathToFile", currentPath)
+
+
+
+    
+
+    for (let i = 0; i < files.length; i++) {
+      //console.log(files[i].size)
+
+
+      setListOfUploaded([
+        ...listOfUploaded,
+        { name: files[i].name, size: files[i].size}
+      ]);
+    
+    }
+
+
+    fetch("http://localhost:5000/api/upload", {
+             method: 'POST',
+             headers: {
+                 'Accept': 'application/json',
+                 'Authorization': `Bearer ${currentIdToken}`,
+             },
+             body: formData
+
+    }).then((response) => {
+      
+      
+      if (response.status === 200) {
+
+      }else{
+
+
+
+      }
+      
+      //response.json()
+    
+    })
+    .then((data) => {
+      
+      
+
+
+
+      //console.log('Upload success:', data);
+    })
+    .catch((error) => {
+      //console.error('Upload error:', error);
+    });
+
+    setTimeout(() => {
+  
+      setDragDropSurfaceState("isNotDraggedOver")
+      
+
+    }, 5500);
+    
+
+    
+
+
+
+
+  }
+
+
+  
 
 
   
@@ -224,43 +406,12 @@ function App(){
 
     <div className={styles.app}>
 
-      <Modal
-        isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
-        style={customStyles}
-        id={styles.modal}
-        contentLabel="Example Modal"
-      >
+      <RenameModal renameItem={renameItem} selectedItem={selectedItem} renameModalIsOpen={renameModalIsOpen} closeRenameModal={() => setRenameModalIsOpen(false)}></RenameModal>
 
+      <NewFolderModal currentPath={currentPath} newFolderModalIsOpen={newFolderModalIsOpen} closeNewFolderModal={()=>{setNewFolderModalIsOpen(false)}} createNewFolder={(arg:string)=>{createNewFolder(arg)}} />
+      
 
-          <div id={styles.topModalContainer}>
-
-
-            <h1 id={styles.renameTitle}>Rename</h1>
-          
-            <button id={styles.closeModalButton} onClick={()=>{setIsOpen(false)}}>&times;</button>
-
-
-          </div>
-
-
-          <input id={styles.modalTextInput} onChange={(e)=>{setModalTextInputDefaultValue(e.target.value)}} autoFocus={true} value={modalTextInputDefaultValue} type="text" placeholder="Name"/>
-
-
-          <div id={styles.bottomModalContainer}>
-        
-            <button id={styles.renameButton}>Rename</button>
-            <button id={styles.cancelButton} onClick={()=>{setIsOpen(false)}}>Cancel</button>
-
-          </div>
-
-
-
-
-
-      </Modal>
-
+      
       <div className={styles.navbar}>
 
         <img src="https://i.ibb.co/xXPXQP0/logo.png" className={styles.logo}></img>
@@ -276,9 +427,13 @@ function App(){
 
         </div>
 
-        <button className={styles.filterButton}>
-          Filter
-          <img className={styles.filterIcon} src={filterIcon}></img>
+        <button className={styles.newFolder} onClick={()=>{setNewFolderModalIsOpen(true)}}>
+        
+        
+          New Folder
+        
+          <img className={styles.newFolderIcon} src={addIcon}/>
+
         </button>
 
         <div className={styles.userContainer}>
@@ -408,7 +563,7 @@ function App(){
           <div id={styles.bottomContainer}>
             <div id={styles.allItemsContainer}>
 
-              <h1 className={styles.sectionTitle} style={{marginLeft:'20px'}}>myImages/LosAngeles2023</h1>
+              <h1 className={styles.sectionTitle} style={{marginLeft:'20px'}}>/myImages/LosAngeles2023/LosAngeles2023/LosAngeles2023/LosAngeles2023/</h1>
               {/*  <h1 className={styles.sectionTitle} style={{marginLeft:'20px'}}>All files</h1> */}
 
 
@@ -464,39 +619,7 @@ function App(){
               onDragOver={()=>{setDragDropSurfaceState("isDraggedOver")}} 
               onDragLeave={()=>{setDragDropSurfaceState("isNotDraggedOver")}}
               onDropAccepted={(files)=>{
-                
-                console.log(files)
-
-                setDragDropSurfaceState("isDropAccepted")
-
-                uploadedFilesContainerRef.current!.scrollIntoView({ behavior: 'smooth' });
-
-                for (let i = 0; i < files.length; i++) {
-                  console.log(files[i].size)
-                  setListOfUploaded([
-                    ...listOfUploaded,
-                    { name: files[i].name, size: files[i].size}
-                  ]);
-                }
-
-                setTimeout(() => {
-              
-                  setDragDropSurfaceState("isNotDraggedOver")
-                  
-
-                }, 5500);
-                
-
-                
-              
-                
-
-
-
-              
-
-
-
+                uploadFiles(files)
 
                 }}>
                 {({getRootProps, getInputProps}) => (

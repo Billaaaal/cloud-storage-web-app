@@ -4,13 +4,9 @@ import { readdirSync, rmSync, writeFileSync, mkdirSync, existsSync } from "fs";
 
 var router = express.Router();
 
-var serviceAccount = require("../../credentials.json");
 
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://cloudapp-b1e10-default-rtdb.europe-west1.firebasedatabase.app"
-});
+
   
   
 
@@ -32,9 +28,11 @@ function createNewUserInDatabase(uid: string) {
         else{
 
             
-            db.ref("users/" + uid).set(
+            db.ref("users/" + uid + "/My Files/").set(
                 {
-                    "isEmpty": "true"
+                    "name": "My Files",
+                    "path": "/My Files/",
+                    "type": "folder"
                 }
             ).then(() => {
               

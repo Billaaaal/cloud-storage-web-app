@@ -7,10 +7,18 @@ import admin from "firebase-admin";
 import { readdirSync, rmSync, writeFileSync, mkdirSync } from "fs";
 //import the realtime database
 import createuser from './routes/createuser/createuser';
+import upload from './routes/upload/upload';
+
+var serviceAccount = require("./credentials.json");
 
 
 
 console.log("Hello world !")
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://cloudapp-b1e10-default-rtdb.europe-west1.firebasedatabase.app"
+});
 
 
 
@@ -18,7 +26,13 @@ const app = express();
 
 const port = 5000;
 
+//app.use(express.json({limit: '5000mb'}));
+
+
 app.use(cors())
+
+
+
 
 app.get('/', (req, res) => {
     res.send("Hello world !")
@@ -26,6 +40,11 @@ app.get('/', (req, res) => {
 
 
 app.use('/api/create-user', createuser);
+
+
+
+
+app.use('/api/upload', upload);
 
 
 

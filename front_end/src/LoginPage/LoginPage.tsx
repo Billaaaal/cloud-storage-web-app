@@ -40,8 +40,8 @@ function App(){
   };
 
   
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+  //const app = initializeApp(firebaseConfig);
+  //const analytics = getAnalytics(app);
   const auth = getAuth();
 
 
