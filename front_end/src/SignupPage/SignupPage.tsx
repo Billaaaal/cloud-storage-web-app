@@ -61,7 +61,7 @@ function App(){
         // ...
 
 
-        //navigate('/dashboard')
+        //navigate('/dashboard/')
 
 
         const dateObject = (new Date(user.metadata.creationTime?.toString()!).getTime()) / 1000
@@ -83,7 +83,7 @@ function App(){
           console.log("Condition met : you're about to go to dashboard")
           
           
-          navigate('/dashboard')
+          navigate('/dashboard/')
 
 
 
@@ -157,7 +157,7 @@ function App(){
 
     if (response.status === 200) {
 
-      navigate('/dashboard')
+      navigate('/dashboard/')
       setIsSignupLoading(false)
       
 
@@ -274,7 +274,7 @@ function App(){
 
 
       //!!!!!!!!!!!!!!!!!!!!IMPORTANT!!!!!!!!!!!!!!!!!!!!!
-      //navigate('/dashboard')
+      //navigate('/dashboard/')
 
 
         //not good

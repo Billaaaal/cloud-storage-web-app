@@ -20,12 +20,24 @@ const upload = multer();
 function writeFileToDisk(uid: string, filePath: string, fileName: string, fileBuffer: any) {
 
 
-    console.log("Writing file to disk...")
-    console.log(filePath + fileName)
+    //console.log("Writing file to disk...")
+    //console.log(filePath + fileName)
 
-    mkdirSync("files_folder/" + uid + filePath, { recursive: true })
+    //mkdirSync("files_folder/" + uid + filePath, { recursive: true })
+    try{
 
-    writeFileSync("files_folder/" + uid + filePath + fileName, fileBuffer)
+        writeFileSync("files_folder/" + uid + filePath + fileName, fileBuffer)
+
+
+
+    }catch(e){
+        console.log("Error")
+        console.log
+    }
+
+
+    //match error 
+    
 
 }
 
@@ -53,27 +65,21 @@ function createFileRecordInDB(uid: string, filePath: string, fileName: string, f
     .then(function(snapshot) {
         if (!snapshot.exists()) {
             //console.log("user already exists")
-            db.ref("users/" + uid + "/My Files").set(
-                {
-                    "isEmpty": "true"
-
-                }
-                
-            ).then(() => {
-              
-              
-             //   createNewUserFolder(uid)
-            
-            })
         
+            //return error
         }
         else{
 
-            const dbRef = "users/" + uid + "/" + filePath + fileName.split('.').join(',') 
+            const dbRef = "users/" + uid + filePath  +  fileName.split('.').join(',') 
             
 
-            console.log("Uploading to " + dbRef)
+            //console.log("Uploading to " + dbRef)
 
+            console.log("Uploading file...")
+            console.log(filePath)
+            console.log(fileName)
+
+            console.log(dbRef)
 
             db.ref(dbRef).update(
                 {
@@ -81,7 +87,7 @@ function createFileRecordInDB(uid: string, filePath: string, fileName: string, f
                     "name": fileName,
                     "size" : convertSize(fileBuffer.length),
                     "path": filePath + fileName,
-                    "type": "file"
+                    "type": fileName.split('.').pop()
                 }
             ).then(() => {
        
@@ -144,29 +150,31 @@ function createNewUserFolder(uid: string) {
 
 
 
-router.post("/", upload.single('file'), (req, res) => {
+router.post("/", upload.array('files'), (req, res) => {
     //console.log(req.headers)
 
     //console.log(req.headers)
 
     //console.log("Uploading...")
 
-    if(!req.file){
+    if(!req.files){
         res.status(400).json({ message: `Error` }).send();
     }
 
 
     //console.log(req.file?.originalname)
 
-    const fileName = req.file!.originalname
+    //const fileName = req.file!.originalname
 
-    const fileBuffer = req.file!.buffer
+    //const fileBuffer = req.file!.buffer
 
-    const filePath = req.body.pathToFile
+    //const filePath = req.body.pathToFile
 
     //console.log(req.file?.buffer)
 
+    const path = req.body.path
 
+    var fileKeys = Object.keys(req.files!);
     //console.log(req.body.pathToFile)
 
 
@@ -200,12 +208,29 @@ router.post("/", upload.single('file'), (req, res) => {
     
             //return res.json({ message: `Welcome, this is the backend ${decodedToken.email}` });
             //createNewUser(uid)
+            const uploadedFiles = req.files as Express.Multer.File[];
+
+            for (const file of uploadedFiles) {
+                // Handle the file, save it to disk, process it, etc.
+
+
+                const fileName = file!.originalname
+
+                const fileBuffer = file!.buffer
+            
+                createFileRecordInDB(uid, path, fileName, fileBuffer)
+            }
+
+    
+                //createFileRecordInDB(uid, path, files[])
+
+
+            
+            
 
 
 
 
-
-            createFileRecordInDB(uid, filePath, fileName, fileBuffer)
 
 
 

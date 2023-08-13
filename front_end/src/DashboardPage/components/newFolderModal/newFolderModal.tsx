@@ -80,7 +80,7 @@ const NewFolderModal = (props:any) => {
           </div>
 
 
-          <input id={styles.modalTextInput} onChange={(e)=>{setFolderNameInputText(e.target.value)}} autoFocus={true} value={folderNameInputText} type="text" placeholder="Name"/>
+          <input id={styles.modalTextInput} onKeyDown={(e)=>{if(e.key === "Enter"){createNewFolder(folderNameInputText)}}} onChange={(e)=>{setFolderNameInputText(e.target.value)}} autoFocus={true} value={folderNameInputText} type="text" placeholder="Name"/>
 
 
           <div id={styles.bottomModalContainer}>

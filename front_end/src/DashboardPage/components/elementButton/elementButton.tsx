@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './elementButton.module.css';
 import folderIcon from '../../assets/documents.svg'
 import { Dropdown, Menu } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -15,6 +16,9 @@ const ElementButton = (props:any) => {
 
     var item = props.itemObject
 
+    //console.log("Handling element "+ item.elementName +" " + item.type)
+
+
 
     const isAFile = (item.type === "folder") ? false : true;
 
@@ -24,10 +28,12 @@ const ElementButton = (props:any) => {
 
     const dropDownMenuOptions = props.dropDownMenuOptions;
 
-    
+    const navigate = useNavigate()    
+
+    const path = item.path 
 
 
-    
+
 
     switch (item.type) {
         case 'pdf':
@@ -79,6 +85,12 @@ const ElementButton = (props:any) => {
 
     }
 
+    const dt_object = new Date(item.date);
+    const options = { month: 'long', day: 'numeric' };
+    const formatted_date = dt_object.toLocaleDateString('en-US', options);
+
+
+
 
 
     
@@ -87,7 +99,7 @@ const ElementButton = (props:any) => {
 
         <Dropdown trigger={['contextMenu']} menu={{
             items: dropDownMenuOptions(item),
-          }}><div className={styles.elementButton}>
+          }}><div className={styles.elementButton} onClick={isAFile?()=>{console.log("Clicked on " + item.elementName)}:()=>{navigate('/dashboard' + path + '/')}}>
 
           {isAFile   ? <div className={styles.fileTypeIcon} style={{backgroundColor:fileTypeIcongBg, color:fileTypeIconTextBg}}>{item.type.toUpperCase()}</div>
 
@@ -95,7 +107,7 @@ const ElementButton = (props:any) => {
           }
 
           <h1 className={styles.elementName}>{item.elementName}</h1>
-          <h1 className={styles.date}>{item.date}</h1>
+          <h1 className={styles.date}>{formatted_date}</h1>
           <h1 className={styles.size}>{item.size}</h1>
 
 

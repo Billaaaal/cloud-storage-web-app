@@ -19,7 +19,7 @@ function createNewUserInDatabase(uid: string) {
     var db = admin.database();
     //for realtime database
 
-    db.ref("users/" + uid)
+    db.ref("users/" + uid + "/My Files")
     .once("value")
     .then(function(snapshot) {
         if (snapshot.exists()) {
@@ -32,7 +32,9 @@ function createNewUserInDatabase(uid: string) {
                 {
                     "name": "My Files",
                     "path": "/My Files/",
-                    "type": "folder"
+                    "type": "folder",
+                    "date" : Date.now(),
+                    "size": "2 MB",
                 }
             ).then(() => {
               
@@ -77,7 +79,8 @@ function createNewUserFolder(uid: string) {
         console.log("user folder already exists")
     }
     else{
-        mkdirSync(`./files_folder/${uid}`)
+        mkdirSync(`./files_folder/${uid}/`)
+        mkdirSync(`./files_folder/${uid}/My Files/`)
         console.log("user folder created")
     }
 

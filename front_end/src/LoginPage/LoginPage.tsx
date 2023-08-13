@@ -72,7 +72,7 @@ function App(){
         //alert(uid)
         //then navigate to the dashboard
         // ...
-        navigate('/dashboard')
+        navigate('/dashboard/')
 
         //maybe add the same logic as in the signup page with the timestamp check
 
@@ -131,7 +131,7 @@ function App(){
         const user = userCredential.user;
 
 
-        navigate('/dashboard')
+        navigate('/dashboard/')
         //not good
         //userCredentials.user?.getIdToken().then(function(idToken) {
          // alert(userCredentials.user.email)

@@ -8,6 +8,7 @@ import { readdirSync, rmSync, writeFileSync, mkdirSync } from "fs";
 //import the realtime database
 import createuser from './routes/createuser/createuser';
 import upload from './routes/upload/upload';
+import newfolder from "./routes/newfolder/newfolder";
 
 var serviceAccount = require("./credentials.json");
 
@@ -46,6 +47,8 @@ app.use('/api/create-user', createuser);
 
 app.use('/api/upload', upload);
 
+
+app.use('/api/new-folder', newfolder)
 
 
 //app.use(middleware.decodeToken)

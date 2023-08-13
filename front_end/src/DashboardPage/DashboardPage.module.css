@@ -335,8 +335,16 @@ html, body, #root{
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    margin-left: 25px;
-    margin-top: 30px;
+    text-decoration: none;
+
+
+}
+
+
+
+
+.sectionTitle:hover{
+    color: #9498c5;
 }
 
 .subRecentFilesContainer{
@@ -396,13 +404,18 @@ html, body, #root{
 #allFilesSubContainer{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: start;
     align-items: start;
     gap:10px;
     flex-grow: 1;
     width: 100%;
+    min-height: 300px;
 
+}
 
+#clickableNewFolderArea{
+    width: 100%;
+    height: 200px;
 }
 
 

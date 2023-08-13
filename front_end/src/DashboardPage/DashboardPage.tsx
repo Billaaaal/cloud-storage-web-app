@@ -17,7 +17,7 @@ import { useState } from 'react';
 import DragDropSuccessfullAnimation from './components/dragDropSuccessfullAnimation/dragDropSuccessfullAnimation';
 import UploadedFileItem from './components/uploadedFileItem/uploadedFileItem';
 import Modal from 'react-modal';
-import {useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 //haha
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -25,7 +25,8 @@ import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import RenameModal from './components/renameModal/renameModal';
 import addIcon from './assets/addIcon.svg'
 import NewFolderModal from './components/newFolderModal/newFolderModal';
-import { get, getDatabase, onValue, ref } from 'firebase/database';
+import { child, equalTo, get, getDatabase, off, onValue, orderByChild, query, ref } from 'firebase/database';
+import { Dropdown } from 'antd';
 
 
 
@@ -54,17 +55,9 @@ function App(){
 
 
   
-  const app = initializeApp(firebaseConfig);
+  //const app = initializeApp(firebaseConfig);
   //const analytics = getAnalytics(app);
   const auth = getAuth();
-
-
-
-
-  
-
-
-
 
 
   const navigate = useNavigate()
@@ -84,8 +77,59 @@ function App(){
   const [renameModalIsOpen, setRenameModalIsOpen] = useState(false);
 
   const [selectedItem, setSelectedItem] = useState<any | null>("")
+  
+  
 
-  const [currentPath, setCurrentPath] = useState("/My Files/Work 2023/")
+  //console.log(location.pathname)
+
+  
+  //const [currentPath, setCurrentPath] = useState("")
+
+  
+
+  //console.log("The current uri is : '"+location.pathname+ "'")
+
+
+  
+  //useEffect(() => {
+
+
+
+
+
+    //if (location.pathname === '/dashboard'){
+
+    //  navigate('/dashboard/My Files/')
+
+    //}else{
+      //setCurrentPath(location.pathname.split('/dashboard').join('').split('%20').join(' '))
+      //console.log("The URI has changed to : " + location.pathname)
+
+    //}
+
+
+
+    //if(location.pathname==='/dashboard'){
+
+     // alert("You are in the root folder")
+
+   //   setCurrentPath("/My Files/")
+      
+   // }
+
+
+    //setCurrentPath(location.pathname.split('/dashboard').join(''))
+
+  //}, [location.pathname])
+
+
+  //useEffect(() => {
+
+    //navigate("/dashboard" + currentPath)
+
+  //}, [currentPath])
+
+  
 
   const [currentIdToken, setCurrentIdToken] = useState("")
 
@@ -96,7 +140,7 @@ function App(){
   
   useEffect(() => {
 
-    console.log("This is supposed to run once")
+    //console.log("This is supposed to run once")
 
 
 
@@ -110,6 +154,14 @@ function App(){
         //const uid = user.uid;
         //alert(user.email)
         setCurrentUserEmail(user.email)
+        
+        navigate('/dashboard/My Files/')      
+        //console.log("The URI issssss " + location.pathname)
+
+        //if(location.pathname.split('/').join('') === "dashboard"){
+        //if(location.pathname === '/dashboard/'){
+        //  navigate("/dashboard/My Files/")
+        //}
 
         
         
@@ -120,7 +172,7 @@ function App(){
           // ...
           //alert(idToken)
 
-          listenToDatabaseChanges()
+          //listenToDatabaseChanges()
           
 
 
@@ -170,37 +222,188 @@ function App(){
   
   []);
 
-  function listenToDatabaseChanges(){
+
+  function getFileExtension(filename:string) {
+    const lastDotIndex = filename.lastIndexOf('.');
+    if (lastDotIndex === -1) {
+      return filename; // No file extension found
+    }
+    return filename.slice(lastDotIndex + 1);
+  }
+
+  function extractFromMyFiles(inputString:string) {
+    const startIndex = inputString.indexOf("/My Files");
+    if (startIndex !== -1) {
+      const extractedText = inputString.substring(startIndex);
+      return extractedText;
+    } else {
+      return "";
+    }
+  }
+
+
+
+
+  useEffect(() => {
+
+
+    
+    //var pathToListen:string
+
+    //if(currentPath === '/My Files/' || currentPath === '/My Files'){
+
+    //  pathToListen = "users/" + auth.currentUser?.uid + "/My Files/"
+      //console.log("Listening to nicely " + pathToListen)
+      
+      //}else{
+
+    //  pathToListen = "users/" + auth.currentUser?.uid + currentPath
+    
+    //}
+
+    console.log("The user is ")
+    console.log(auth.currentUser)
+
+    var pathToListen = "users/" + auth.currentUser?.uid + decodeURI(location.pathname.replace('dashboard', ''))
+    
 
     
 
-    console.log("Listening to changes in the database " + "users/" + auth.currentUser?.uid)
-   // console.log("Listening to changes in the database: " +  "/users/"+user.uid+'/My Files/' )
-    //
-
+    
     const db = getDatabase();
     
-
-    const tasksRef = ref(db, "users/" + auth.currentUser?.uid);
-
-        
-    get(tasksRef)
-    .then((snapshot) => {
-
-      console.log("There have been changes")
-
-      const data = snapshot.val();
-      console.log(data);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+    
+    const tasksRef = ref(db, pathToListen);
     
 
 
-  }
-  
-  
+    const queryRef = query(tasksRef);
+    
+
+    if(auth.currentUser){
+
+      
+
+    
+//    console.log("Listening to " + pathToListen)
+
+    
+
+    //if (currentPath === "" || auth.currentUser === null || !location.pathname.includes('My App')){
+      //console.log("Not listening to DB because the path is empty and the uid is not defined")
+      //navigate("/dashboard")
+    //  navigate("/dashboard/My Files/")
+
+
+    //}
+    //else{
+    //console.log("Attempting to listen to " +  pathToListen)
+      
+      //console.log("Listening in zeee db in " + pathToListen)
+      
+      get(tasksRef).then((snapshot) => {
+        if (snapshot.exists()) {
+
+        //  console.log("Listening to " + "users/" + auth.currentUser?.uid + currentPath)
+
+        
+          onValue(queryRef, (snapshot) => {
+      //      console.log("There have been changes inside " + "users/" + auth.currentUser?.uid + currentPath)
+            const data = snapshot.val();
+        //    console.log(data);
+
+            setAllItemsList([])
+            for (const key in data) {
+              if (Object.hasOwnProperty.call(data, key) && typeof data[key] === "object") {
+                  const item = data[key];
+                  // Extracting the desired properties
+                    const name = item.name
+                    const date = item.date
+                    const type = (item.type === "folder") ? "folder" : getFileExtension(item.name)
+                    const size = "1MB"
+                    const path = item.path
+          
+          
+          //          console.log(item)
+
+
+                  
+              //    console.log(type)
+                  
+                //  console.log(data[key])
+
+                  // Now you can use the extracted properties as needed
+                // console.log("Name:", name);
+                  //console.log("Date:", date);
+                  //console.log("Type:", type);
+
+                  //allItemsList.push({elementName: name, type: type, date: date})
+
+                  //console.log("Pushing a " + type)
+
+                  setAllItemsList((allItemsList) => [...allItemsList, {elementName: name, type: type, date: date, size: size, path: path}])
+
+              }
+          }
+            //const data = snapshot.val();
+            //console.log(data);
+
+          //console.log(allItemsList)
+
+          });
+
+
+
+        }else{
+
+          //console.log("not listening to " + "users/" + auth.currentUser?.uid + currentPath)
+
+          //const pathSegments = currentPath.split('/');
+
+          // Remove the last segment
+          //pathSegments.pop();
+
+          // Join the segments back to form the updated path
+         // const updatedPath = pathSegments.join('/');
+
+
+          //navigate("/dashboard/My Files/")
+
+
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+
+
+
+      
+
+      
+
+
+      //console.log("The current path has changed to " + currentPath)
+      
+
+
+
+
+    //}
+
+
+    }
+    return () => {
+
+      off(queryRef)
+      
+      //console.log("The current path has changed to " + currentPath + " and the listener is unmounting")
+      // Clean up side effects or subscriptions here when the component unmounts
+    };
+
+
+  }, [location.pathname]);
+
+
   
   
 
@@ -247,9 +450,56 @@ function App(){
   function createNewFolder(folderName:String){
 
 
-    console.log("Creating new folder named " + folderName + " in " + currentPath)
+
+    console.log("Creating new folder named " + folderName + " in " + extractFromMyFiles(decodeURI(location.pathname)))
 
     setNewFolderModalIsOpen(false)
+
+
+    fetch("http://localhost:5000/api/new-folder", {
+             method: 'POST',
+             headers: {
+                 'Accept': 'application/json',
+                 'Authorization': `Bearer ${currentIdToken}`,
+                 'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({
+
+
+                folderName: folderName,
+                path: extractFromMyFiles(decodeURI(location.pathname))
+
+
+
+             }) // body data type must match "Content-Type" header
+
+    }).then((response) => {
+      
+      
+      if (response.status === 200) {
+
+      }else{
+
+
+
+      }
+      
+      //response.json()
+    
+    })
+    .then((data) => {
+      
+      
+
+
+
+      //console.log('Upload success:', data);
+    })
+    .catch((error) => {
+      //console.error('Upload error:', error);
+    });
+
+
 
 
   }
@@ -273,6 +523,10 @@ function App(){
     { label: (<div onClick={()=>{deleteItem(item)}}>Delete</div>), key: 'delete' },
   ]
 
+  const dropDownMenuOptionsNewFolder = () => [
+    { label: (<div onClick={()=>{setNewFolderModalIsOpen(true)}}>New Folder</div>), key: 'new folder' },
+  ]
+
 
   function dragDropStyle(currentDragDropState:string){
 
@@ -291,7 +545,11 @@ function App(){
 
   const [listOfUploaded, setListOfUploaded] = React.useState<any[]>([]);
 
+  const [allItemsList, setAllItemsList] = React.useState<any[]>([]);
 
+  //console.log(allItemsList)
+
+  
   function openModal() {
     setRenameModalIsOpen(true);
   }
@@ -323,15 +581,20 @@ function App(){
     //console.log(`The last uploaded file is : ${files[Math.max(files.length-1, 0)].name}`)
 
 
-    formData.append('file', files[Math.max(files.length-1, 0)]);
-    formData.append("pathToFile", currentPath)
-
+    
+    formData.append("path", extractFromMyFiles(decodeURI(location.pathname)))
+    
 
 
     
 
     for (let i = 0; i < files.length; i++) {
       //console.log(files[i].size)
+
+      console.log("Uploading " + files[i].name + "...")
+
+
+      formData.append('files', files[i]);
 
 
       setListOfUploaded([
@@ -390,12 +653,30 @@ function App(){
 
 
   }
+  const ClickablePath = (props:any) => {
+
+    const path = props.path
+
+    const segments = path.split('/').filter((segment:string) => segment.trim() !== '')
+
+  return (
+    <div  style={{marginLeft:'20px', marginBottom:'20px'}}>
+      {segments.map((segment:string, index:number) => (
+        <span key={index} className={styles.sectionTitle}>
+          {index !== 0 && <span className={styles.sectionTitle}>/</span>}
+          <a href="javascript:;" onClick={()=>{navigate('/dashboard/' + segments.slice(0, index + 1).join('/') + '/')}} className={styles.sectionTitle}>{segment}</a>
+        </span>
+      ))}
+    </div>
+  );
+
+  }
 
 
   
 
 
-  
+   
 
   
 
@@ -408,7 +689,7 @@ function App(){
 
       <RenameModal renameItem={renameItem} selectedItem={selectedItem} renameModalIsOpen={renameModalIsOpen} closeRenameModal={() => setRenameModalIsOpen(false)}></RenameModal>
 
-      <NewFolderModal currentPath={currentPath} newFolderModalIsOpen={newFolderModalIsOpen} closeNewFolderModal={()=>{setNewFolderModalIsOpen(false)}} createNewFolder={(arg:string)=>{createNewFolder(arg)}} />
+      <NewFolderModal currentPath={extractFromMyFiles(decodeURI(location.pathname))} newFolderModalIsOpen={newFolderModalIsOpen} closeNewFolderModal={()=>{setNewFolderModalIsOpen(false)}} createNewFolder={(arg:string)=>{createNewFolder(arg)}} />
       
 
       
@@ -449,6 +730,8 @@ function App(){
             <p className={styles.usernameText}>{currentUserEmail}</p>
 
           </div>
+
+          <button onClick={()=>{navigate("/dashboard"+(['/My Files/Workplace 2021/', '/My Files/Workplace 2023/'][Math.round(Math.random())]))}}></button>
 
           <button className={styles.logOutButton} title={"Log out"} onClick={()=>{signOutFromFirebase()}}>
             <img className={styles.logOutButtonIcon} src={logOutIcon}></img>
@@ -563,7 +846,8 @@ function App(){
           <div id={styles.bottomContainer}>
             <div id={styles.allItemsContainer}>
 
-              <h1 className={styles.sectionTitle} style={{marginLeft:'20px'}}>/myImages/LosAngeles2023/LosAngeles2023/LosAngeles2023/LosAngeles2023/</h1>
+
+              <ClickablePath path={decodeURI(location.pathname.replace('dashboard', ''))}></ClickablePath>
               {/*  <h1 className={styles.sectionTitle} style={{marginLeft:'20px'}}>All files</h1> */}
 
 
@@ -592,22 +876,41 @@ function App(){
 
               </div>
 
-              <div id={styles.allFilesSubContainer}>
+              
 
-                {elementsList.map((item, index) => (
+                <div id={styles.allFilesSubContainer}>
 
-                
+                {allItemsList.map((item, index) => (
+
+
 
                 <ElementButton itemObject={item} dropDownMenuOptions={dropDownMenuOptions}/>
-                
-                
+
+
                 ))}
 
+                <Dropdown trigger={['contextMenu']} menu={{
+                              items: dropDownMenuOptionsNewFolder(),
+                            }}>
+
+                  <div id={styles.clickableNewFolderArea}>
+
+
+                  </div>
+
+                </Dropdown>
 
 
 
-              </div>
 
+                </div>
+
+
+
+                
+              
+
+              
             </div>
 
 
@@ -619,6 +922,7 @@ function App(){
               onDragOver={()=>{setDragDropSurfaceState("isDraggedOver")}} 
               onDragLeave={()=>{setDragDropSurfaceState("isNotDraggedOver")}}
               onDropAccepted={(files)=>{
+
                 uploadFiles(files)
 
                 }}>
