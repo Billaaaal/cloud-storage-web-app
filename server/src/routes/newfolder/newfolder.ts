@@ -64,7 +64,7 @@ function createFolderInDB(uid:string, path:string, folderName:string){
         }
         else{
 
-            const dbRef = "users/" + uid + path + folderName
+            const dbRef = "users/" + uid + path + '/' + folderName
 
 
             //console.log("Uploading to " + dbRef)
@@ -75,7 +75,7 @@ function createFolderInDB(uid:string, path:string, folderName:string){
                 {
                     "date": Date.now(),
                     "name": folderName,
-                    "path": path + folderName,
+                    "path": path + '/' + folderName,
                     "type": "folder",
                     "size": "2 MB"
                 }
@@ -104,7 +104,7 @@ function createFolderInDB(uid:string, path:string, folderName:string){
 function createFolder(uid:string, path:string, folderName:string){
     try{
 
-        mkdirSync("files_folder/" + uid + path + folderName)
+        mkdirSync("files_folder/" + uid + path + '/' + folderName)
 
 
     }catch(e){
@@ -141,6 +141,8 @@ router.post("/", (req, res) => {
 
 
     const path = req.body.path
+
+    console.log("Trying  " + path)
 
     const folderName = req.body.folderName
 

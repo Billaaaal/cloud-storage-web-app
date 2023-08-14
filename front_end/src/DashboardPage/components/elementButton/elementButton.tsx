@@ -99,7 +99,7 @@ const ElementButton = (props:any) => {
 
         <Dropdown trigger={['contextMenu']} menu={{
             items: dropDownMenuOptions(item),
-          }}><div className={styles.elementButton} onClick={isAFile?()=>{console.log("Clicked on " + item.elementName)}:()=>{navigate('/dashboard' + path + '/')}}>
+          }}><div className={styles.elementButton} onClick={isAFile?()=>{console.log("Clicked on " + item.elementName)}:()=>{navigate('/dashboard' + path)}}>
 
           {isAFile   ? <div className={styles.fileTypeIcon} style={{backgroundColor:fileTypeIcongBg, color:fileTypeIconTextBg}}>{item.type.toUpperCase()}</div>
 

@@ -155,7 +155,7 @@ function App(){
         //alert(user.email)
         setCurrentUserEmail(user.email)
         
-        navigate('/dashboard/My Files/')      
+        navigate('/dashboard/My Files')      
         //console.log("The URI issssss " + location.pathname)
 
         //if(location.pathname.split('/').join('') === "dashboard"){
@@ -261,12 +261,31 @@ function App(){
     
     //}
 
+    if(auth.currentUser === null){
+      navigate('/dashboard')
+    }
+
     console.log("The user is ")
     console.log(auth.currentUser)
 
-    var pathToListen = "users/" + auth.currentUser?.uid + decodeURI(location.pathname.replace('dashboard', ''))
+    var pathToListen = "users/" + auth.currentUser?.uid + decodeURI(location.pathname.replace('dashboard/My Files', '/'))
+
+    //var pathToListen = decodeURI(location.pathname)
     
 
+    if(decodeURI(location.pathname) === '/dashboard/My Files' || decodeURI(location.pathname) === '/dashboard/My Files/'){
+
+      pathToListen = "users/" + auth.currentUser?.uid + "/My Files"
+
+
+    }else{
+
+     pathToListen = "users/" + auth.currentUser?.uid + decodeURI(location.pathname.replace('dashboard/', ''))
+
+
+    }
+
+    console.log("Let's listen to " + pathToListen)
     
 
     
@@ -320,7 +339,7 @@ function App(){
                     const name = item.name
                     const date = item.date
                     const type = (item.type === "folder") ? "folder" : getFileExtension(item.name)
-                    const size = "1MB"
+                    const size = item.size
                     const path = item.path
           
           
@@ -404,6 +423,192 @@ function App(){
   }, [location.pathname]);
 
 
+
+  useEffect(() => {
+
+
+      var pathToListen = "users/" + auth.currentUser?.uid + "/My Files"
+      
+  
+      
+  
+      
+      const db = getDatabase();
+      
+      
+      const tasksRef = ref(db, pathToListen);
+      
+  
+  
+      const queryRef = query(tasksRef);
+      
+  
+  
+        
+  
+      
+  //    console.log("Listening to " + pathToListen)
+  
+      
+  
+      //if (currentPath === "" || auth.currentUser === null || !location.pathname.includes('My App')){
+        //console.log("Not listening to DB because the path is empty and the uid is not defined")
+        //navigate("/dashboard")
+      //  navigate("/dashboard/My Files/")
+  
+  
+      //}
+      //else{
+      //console.log("Attempting to listen to " +  pathToListen)
+        
+        //console.log("Listening in zeee db in " + pathToListen)
+  
+  
+        function logNonFolderItems(obj: any) {
+          for (const key in obj) {
+            const item = obj[key];
+  
+            if (item.type && item.type !== "folder") {
+              console.log("here's a file");
+              console.log(item);
+  
+  
+              const name = item.name
+              const date = item.date
+              const type = (item.type === "folder") ? "folder" : getFileExtension(item.name)
+              const size = item.size
+              const path = item.path
+    
+             // arr.push({elementName: name, type: type, date: date, size: size, path: path})
+  
+  
+             setRecentFilesList((recentFilesList) => [...recentFilesList, {elementName: name, type: type, date: date, size: size, path: path}])
+             //setRecentFilesList([...recentFilesList].sort((a, b) => b.date - a.date))
+  
+  //            setRecentFilesList((recentFielesList) => [...recentFilesList, {elementName: name, type: type, date: date, size: size, path: path}])
+            }
+  
+            if (typeof item === "object" && item !== null) {
+              logNonFolderItems(item);
+            }else{
+  
+  
+              //setRecentFilesList(arr)
+            }
+          }
+        }
+  
+        
+          //  console.log("Listening to " + "users/" + auth.currentUser?.uid + currentPath)
+  
+          
+            onValue(queryRef, (snapshot) => {
+        //      console.log("There have been changes inside " + "users/" + auth.currentUser?.uid + currentPath)
+              //const data = snapshot.val();
+              //console.log("ALl the data")
+              //console.log(data);
+  
+              setRecentFilesList([])
+  
+              logNonFolderItems(snapshot.val());
+  
+  
+              //setAllItemsList([])
+              //for (const key in data) {
+                //if (Object.hasOwnProperty.call(data, key) && typeof data[key] === "object") {
+                //    const item = data[key];
+                //    // Extracting the desired properties
+                //      const name = item.name
+                //      const date = item.date
+                //      const type = (item.type === "folder") ? "folder" : getFileExtension(item.name)
+                //      const size = item.size
+                //      const path = item.path
+            
+            
+            //          console.log(item)
+  
+  
+                    
+                //    console.log(type)
+                    
+                  //  console.log(data[key])
+  
+                    // Now you can use the extracted properties as needed
+                  // console.log("Name:", name);
+                    //console.log("Date:", date);
+                    //console.log("Type:", type);
+  
+                    //allItemsList.push({elementName: name, type: type, date: date})
+  
+                    //console.log("Pushing a " + type)
+  
+                  //  setAllItemsList((allItemsList) => [...allItemsList, {elementName: name, type: type, date: date, size: size, path: path}])
+  
+                //}
+            //}
+              //const data = snapshot.val();
+              //console.log(data);
+  
+            //console.log(allItemsList)
+  
+            });
+  
+  
+  
+  
+            //console.log("not listening to " + "users/" + auth.currentUser?.uid + currentPath)
+  
+            //const pathSegments = currentPath.split('/');
+  
+            // Remove the last segment
+            //pathSegments.pop();
+  
+            // Join the segments back to form the updated path
+           // const updatedPath = pathSegments.join('/');
+  
+  
+            //navigate("/dashboard/My Files/")
+  
+  
+        
+  
+  
+        
+  
+        
+  
+  
+        //console.log("The current path has changed to " + currentPath)
+        
+  
+  
+  
+  
+      //}
+  
+
+      return () => {
+
+        off(queryRef)
+        
+        //console.log("The current path has changed to " + currentPath + " and the listener is unmounting")
+        // Clean up side effects or subscriptions here when the component unmounts
+      };
+  
+      
+      
+  
+  
+    
+      
+  
+  
+  
+
+
+
+
+  }, [location.pathname]);
   
   
 
@@ -420,7 +625,7 @@ function App(){
 
   
 
-  const recentFilesList = [{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},];
+  //const recentFilesList = [{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},{elementName: "revenues.jpg", type: "jpg"},{elementName: "revenues.pdf", type: "pdf"},];
 
   const elementsList = [{elementName: "a folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "another one", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "lol", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" },{elementName: "revenues_folder", type: "folder", size: "28 KB", date: "time-stamp" }, {elementName: "document.docx", type: "docx", size: "54 KB", date: "time-stamp" }, {elementName: "image.jpg", type: "jpg", size: "136 KB", date: "time-stamp" }];
 
@@ -547,6 +752,9 @@ function App(){
 
   const [allItemsList, setAllItemsList] = React.useState<any[]>([]);
 
+  const [recentFilesList, setRecentFilesList] = React.useState<any[]>([]);
+
+
   //console.log(allItemsList)
 
   
@@ -664,7 +872,7 @@ function App(){
       {segments.map((segment:string, index:number) => (
         <span key={index} className={styles.sectionTitle}>
           {index !== 0 && <span className={styles.sectionTitle}>/</span>}
-          <a href="javascript:;" onClick={()=>{navigate('/dashboard/' + segments.slice(0, index + 1).join('/') + '/')}} className={styles.sectionTitle}>{segment}</a>
+          <a href="javascript:;" onClick={()=>{navigate('/dashboard/' + segments.slice(0, index + 1).join('/'))}} className={styles.sectionTitle}>{segment}</a>
         </span>
       ))}
     </div>
@@ -819,7 +1027,7 @@ function App(){
             
 
             <div className={styles.subRecentFilesContainer} id={styles.subRecentFilesContainer1}>
-            {recentFilesList.map((item, index) => (
+            {recentFilesList.sort((a, b) => b.date - a.date).map((item, index) => (
 
               
 

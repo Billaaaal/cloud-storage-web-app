@@ -70,7 +70,7 @@ function createFileRecordInDB(uid: string, filePath: string, fileName: string, f
         }
         else{
 
-            const dbRef = "users/" + uid + filePath  +  fileName.split('.').join(',') 
+            const dbRef = "users/" + uid + filePath + '/' +  fileName.split('.').join(',') 
             
 
             //console.log("Uploading to " + dbRef)
@@ -86,7 +86,7 @@ function createFileRecordInDB(uid: string, filePath: string, fileName: string, f
                     "date": Date.now(),
                     "name": fileName,
                     "size" : convertSize(fileBuffer.length),
-                    "path": filePath + fileName,
+                    "path": filePath + '/' + fileName,
                     "type": fileName.split('.').pop()
                 }
             ).then(() => {
